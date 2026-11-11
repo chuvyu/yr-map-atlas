@@ -21,17 +21,21 @@ Map Atlas turns that pile into **a library you can browse**: draw a map into the
 | 🗂 **Auto-organise** | Scans the library and reads each map's name, player count, terrain and size |
 | 🖼 **Built-in previews** | Decodes the preview image embedded in the map file — no separate screenshots needed |
 | 🎲 **Draw into the game** | Picks a map at random or by filter, copies it into the game folder and launches |
+| 🎯 **Draw preferences** | Skip recently drawn maps; weight by rating so good maps come up more often |
 | ⭐ **Rate and file** | Rate it, and the file moves into the matching star folder |
+| ✏️ **One rename, three names** | Renames the file, the in-game title and the library label together |
 | 🏷 **Tags and notes** | Custom tags are shared across the whole library; long notes grow as you type |
+| ☑️ **Batch actions** | Select several maps and tag, return or delete them at once |
 | 📊 **Session log** | Duration, mode and outcome, attached to the map |
+| 📈 **Stats** | Total play time, average rating, longest session, 7-day trend, spreads and rankings |
 | ❤️ **Favourites** | Star the ones you like and filter them out anytime |
 | 📦 **Bulk import** | Pull an old folder of maps and archives in one go, with policies and undo |
 | 🩺 **Crash handling** | Reads the game's crash log; fixes what it can, writes a brief for AI when it cannot |
+| 🔧 **Check and fix** | Whole-library structural check: seat count, MaxPlayer, malformed packs |
+| 🛡 **Game folder guard** | Detects maps that drifted into the game folder and moves them back |
 | 🎮 **Game modes** | Switch between Battle / Free-for-all / Evil Alliance / Rich / Naval and more |
 | 💾 **Config migration** | Export and import ratings, tags, notes and favourites |
-| ☑️ **Batch actions** | Select several maps and tag, return or delete them at once |
-| 📊 **Stats** | Total play time, rating spread, terrain spread, most-played maps |
-| 🛡 **Game folder guard** | Detects maps that drifted into the game folder and moves them back |
+| ⌨️ **Shortcuts** | Esc closes the detail panel, Ctrl+F jumps to search |
 
 ---
 
@@ -141,6 +145,24 @@ When you are done, press **Save** — give it a rating and it files itself away.
 
 ---
 
+## The three names
+
+A map has a name in three places, and the plugin keeps them in sync:
+
+| Name | Where you see it | What sets it |
+|---|---|---|
+| File name | In Explorer | The plugin, following your rename |
+| In-game title | The game's map list | `[Basic] Name` inside the map file |
+| Library label | Cards and the detail panel | Your manual naming |
+
+Press **Edit** in the detail panel or **Rename** on the settle card and all three change together, so the map is easy to find in game.
+
+Renaming backs the original file up to `.atlas\backups\rename\` first, and never touches the terrain, units or triggers.
+
+Until you rename a map, its card shows a small line "In game: …" so you can match it up.
+
+---
+
 ## Game modes
 
 The game ships with nine skirmish modes its own UI will not let you pick. The plugin writes the setting for you:
@@ -194,10 +216,10 @@ Refresh the page (F5). That is almost always it.
 Yes. Skip the game folder during setup and you get a pure collection: browse, rate, write notes — just no launching.
 
 **Will it modify my map files?**
-It moves them and renames them according to your settings. **It never edits their contents.**
+In two ways: it moves them between folders, and a rename updates both the file name and the name inside the file. The original is backed up before any edit; terrain, units and triggers are never touched.
 
 **Does renaming lose my record?**
-No. Records are keyed by file content (MD5), so renaming and moving are safe.
+No. The plugin migrates ratings, tags, notes and session history onto the renamed file.
 
 **A map crashes on load?**
 Press **Auto-fix** in the settlement card; if that fails, **Fix issue** hands the crash context to the AI.
@@ -225,6 +247,7 @@ The map file declares no maximum, and its start points are incomplete. It still 
 - `.rar` / `.7z` extraction needs 7-Zip installed; `.zip` is handled natively
 - Nested archives (an archive inside an archive) are not unpacked
 - Automatic crash repair covers known structural problems only; the rest goes through the AI brief
+- Official maps (inside `.mmx` / `.yro` packs) are read-only — they cannot be renamed or moved
 
 ---
 

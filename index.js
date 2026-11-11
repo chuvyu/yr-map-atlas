@@ -2383,6 +2383,8 @@ function makeService(config) {
             }
             const top = ownedList
               .map((e) => ({
+                id: e.id,
+                zone: e.zone,
                 name: e.name || e.file,
                 plays: ((state.records[e.id] || {}).plays || []).length,
                 stars: (state.records[e.id] || {}).stars || 0,

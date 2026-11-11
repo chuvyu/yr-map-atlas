@@ -2885,6 +2885,11 @@ function makeService(config) {
             entry.nameSource = "manual";
             entry.file = basename(target);
             entry.path = target;
+            if (state.pending && state.pending.id === entry.id) {
+              state.pending.name = stem;
+              state.pending.file = basename(target);
+              saveStateSoon();
+            }
             if (state.pending && state.pending.fromPath === entry.path) state.pending.fromPath = target;
             state.version++;
             scan();

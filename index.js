@@ -248,25 +248,47 @@ const GBK = (() => { try { return new TextDecoder("gbk"); } catch { return null;
 // ------------------------------------------------------------------ rename --
 // Node can decode GBK but has no encoder. Build the reverse table once from
 // the decoder; it is 24k entries and takes ~60ms, only when first needed.
-let gbkReverse = null;
-function gbkEncode(str) {
+// The game reads its files as the *system* ANSI codepage, so what we write
+// must match the machine we run on, not a fixed GBK.
+const ACP_LABEL = {
+  "936": "gbk", "54936": "gb18030", "1252": "windows-1252", "1251": "windows-1251",
+  "1250": "windows-1250", "932": "shift_jis", "950": "big5", "949": "euc-kr",
+};
+let ansiLabelCache = null;
+function ansiLabel() {
+  if (ansiLabelCache) return ansiLabelCache;
+  ansiLabelCache = "gbk";
+  try {
+    const r = spawnSync("reg", ["query", "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Nls\\CodePage", "/v", "ACP"],
+      { encoding: "utf8", windowsHide: true });
+    const m = /ACP\s+REG_SZ\s+(\d+)/i.exec(String(r.stdout || ""));
+    if (m && ACP_LABEL[m[1]]) ansiLabelCache = ACP_LABEL[m[1]];
+  } catch { /* keep gbk */ }
+  return ansiLabelCache;
+}
+
+const ansiReverse = new Map();   // label -> Map(char -> [byte, byte])
+function ansiEncode(str) {
+  const label = ansiLabel();
   const out = [];
   for (const ch of str) {
     const c = ch.codePointAt(0);
     if (c < 0x80) { out.push(c); continue; }
-    if (!gbkReverse) {
-      gbkReverse = new Map();
-      const dec = new TextDecoder("gbk");
+    let table = ansiReverse.get(label);
+    if (!table) {
+      table = new Map();
+      const dec = new TextDecoder(label);
       for (let b = 0x81; b <= 0xfe; b++) {
         for (let t = 0x40; t <= 0xfe; t++) {
           if (t === 0x7f) continue;
           let s;
           try { s = dec.decode(Uint8Array.of(b, t)); } catch { continue; }
-          if (s && s.length === 1 && !gbkReverse.has(s)) gbkReverse.set(s, [b, t]);
+          if (s && s.length === 1 && !table.has(s)) table.set(s, [b, t]);
         }
       }
+      ansiReverse.set(label, table);
     }
-    const pair = gbkReverse.get(ch);
+    const pair = table.get(ch);
     if (!pair) return null;
     out.push(pair[0], pair[1]);
   }
@@ -275,7 +297,7 @@ function gbkEncode(str) {
 
 /** Replace (or insert) [Basic] Name= inside map text. Returns null if it cannot. */
 function setBasicName(text, name) {
-  const enc = gbkEncode(name);
+  const enc = ansiEncode(name);
   if (!enc) return null;
   const value = enc.toString("latin1");
   const sec = splitSections(text).find((s) => s.name === "Basic");
@@ -304,6 +326,10 @@ function fixText(s) {
   if (!s || !/[\u0080-\u00ff]/.test(s)) return s;
   const bytes = Buffer.from(s, "latin1");
   try { return new TextDecoder("utf-8", { fatal: true }).decode(bytes); } catch { /* not utf8 */ }
+  const label = ansiLabel();
+  if (label !== "gbk") {
+    try { return new TextDecoder(label).decode(bytes); } catch { /* not this codepage */ }
+  }
   if (GBK) { try { return GBK.decode(bytes); } catch { /* not gbk */ } }
   return s;
 }
@@ -630,7 +656,7 @@ function readZipEntries(buf) {
     const raw = buf.subarray(off + 46, off + 46 + nlen);
     let name = raw.toString("utf8");
     if (!(flags & 0x800)) {
-      try { name = new TextDecoder("gbk").decode(raw); } catch { /* keep utf8 */ }
+      try { name = new TextDecoder(ansiLabel()).decode(raw); } catch { /* keep utf8 */ }
     }
     out.push({ name, flags, method, csize, lho });
     off += 46 + nlen + elen + clen;
@@ -669,7 +695,8 @@ function unzipTo(zipPath, outDir) {
 
 /** Windows ships bsdtar, which reads zip/7z/rar without anything installed. */
 function findTar() {
-  const fixed = "C:\\Windows\\System32\\tar.exe";
+  const root = process.env.SystemRoot || process.env.windir || "C:\\Windows";
+  const fixed = join(root, "System32", "tar.exe");
   if (existsSync(fixed)) return fixed;
   try {
     const r = spawnSync("where", ["tar.exe"], { encoding: "utf8", windowsHide: true });
@@ -681,11 +708,13 @@ function findTar() {
 
 /** 7-Zip is the last resort; look in PATH, the registry and the usual folders. */
 function find7z() {
+  const pf = process.env.ProgramFiles || "C:\\Program Files";
+  const pf86 = process.env["ProgramFiles(x86)"] || "C:\\Program Files (x86)";
   const cands = [
-    "C:\\Program Files\\7-Zip\\7z.exe",
-    "C:\\Program Files (x86)\\7-Zip\\7z.exe",
-    "C:\\Program Files\\NanaZip\\7z.exe",
-    "C:\\Program Files\\Bandizip\\bz.exe",
+    join(pf, "7-Zip", "7z.exe"),
+    join(pf86, "7-Zip", "7z.exe"),
+    join(pf, "NanaZip", "7z.exe"),
+    join(pf, "Bandizip", "bz.exe"),
   ];
   for (const key of ["HKLM\\SOFTWARE\\7-Zip", "HKLM\\SOFTWARE\\WOW6432Node\\7-Zip", "HKCU\\SOFTWARE\\7-Zip"]) {
     try {
@@ -835,6 +864,21 @@ function walkFiles(root) {
 
 function makeService(config) {
   // exe entries accept "NAME.EXE" or { file, args }
+  /** Find the actual launcher in a game folder instead of assuming its name. */
+  function detectLaunchers(dir) {
+    try {
+      const lower = new Map(readdirSync(dir).map((f) => [f.toLowerCase(), f]));
+      const pick = (names) => names.map((n) => lower.get(n)).find(Boolean) || null;
+      const yr = pick(["ra2md.exe", "game.exe", "gamemd.exe", "yuri.exe"]);
+      const ra2 = pick(["ra2.exe", "game.exe", "gamemd.exe"]);
+      if (!yr && !ra2) return null;
+      const out = {};
+      if (yr) out.yr = { file: yr };
+      if (ra2) out.ra2 = { file: ra2 };
+      return out;
+    } catch { return null; }
+  }
+
   const asLauncher = (v, fallbackFile, fallbackArgs) => {
     if (typeof v === "string" && v.trim()) return { file: v.trim(), args: fallbackArgs };
     if (v && typeof v === "object" && typeof v.file === "string") {
@@ -2317,7 +2361,11 @@ function makeService(config) {
             let gameDir = body.gameDir === null || body.gameDir === "" ? null : String(body.gameDir || "").trim();
             if (gameDir && !existsSync(gameDir)) gameDir = null;
             const layoutId = body.layout === "en" ? "en" : "zh";
-            const exe = body.exe && typeof body.exe === "object" ? body.exe : undefined;
+            let exe = body.exe && typeof body.exe === "object" ? body.exe : undefined;
+            if (!exe && gameDir) {
+              const found = detectLaunchers(gameDir);
+              if (found) exe = found;
+            }
             saved = writeSettings({ libraryRoot, gameDir, layout: layoutId, ...(exe ? { exe } : {}) });
             recomputePaths();
             state.index = [];

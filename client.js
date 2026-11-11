@@ -332,7 +332,7 @@ window.__ModuleLoader__.load({
 .yma-card:focus-visible{outline:2px solid var(--yma-brand);outline-offset:2px}
 .yma-card.on{border-color:var(--yma-brand);box-shadow:0 0 0 2px var(--yma-brand),var(--yma-sh2)}
 .yma-card.on .yma-cname{color:var(--yma-fg)}
-.yma-shot{position:relative;display:block;width:100%;aspect-ratio:2/1;overflow:hidden;background:var(--yma-s2)}
+.yma-shot{position:relative;display:block;width:100%;padding-top:50%;overflow:hidden;background:var(--yma-s2)}
 .yma-shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#0c0c0d;
  transition:transform .5s var(--yma-ease),filter var(--yma-t)}
 .yma-card:hover .yma-shot img{transform:scale(1.045)}
@@ -373,7 +373,8 @@ window.__ModuleLoader__.load({
  min-height:0;background:var(--yma-s1);animation:ymaSlideIn .28s var(--yma-ease) both}
 .yma-sidehead{display:flex;align-items:flex-start;gap:8px;padding:16px 16px 12px;border-bottom:1px solid var(--yma-l1)}
 .yma-sidename{font-size:14.5px;font-weight:660;margin:0;line-height:1.35;flex:1;word-break:break-word}
-.yma-sidebody{flex:1;overflow:auto;padding:14px 16px 24px;display:flex;flex-direction:column;gap:16px}
+.yma-sidebody{flex:1;overflow:auto;padding:14px 16px 24px;display:block}
+.yma-sidebody>*+*{margin-top:16px}
 .yma-preview{display:block;width:100%;border-radius:var(--yma-r);overflow:hidden;
  border:1px solid var(--yma-l1);background:var(--yma-s2);box-shadow:var(--yma-sh1)}
 .yma-kv{display:grid;grid-template-columns:70px 1fr;gap:8px 12px;margin:0;font-size:12px}
@@ -1732,7 +1733,7 @@ window.__ModuleLoader__.load({
             onClick: props.onClose, 'aria-label': tr('btn.close'),
           }, h(IconClose, { size: 15 }))),
         h('div', { className: 'yma-sidebody' },
-          it.hasThumb ? h('div', { className: 'yma-preview' }, h(Shot, { id: it.id })) : null,
+          h('div', { className: 'yma-preview' }, h(Shot, { id: it.hasThumb ? it.id : null })),
           h('dl', { className: 'yma-kv' },
             h('dt', null, T('文件')),
             h('dd', { className: 'yma-filecell' },

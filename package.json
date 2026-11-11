@@ -1,6 +1,6 @@
 {
   "name": "@local/yr-map-atlas",
-  "version": "0.2.0",
+  "version": "0.25.0",
   "type": "module",
   "description": "红警2/尤里的复仇地图收藏册：整理、抽图、评分、记录、修复",
   "main": "./index.js",

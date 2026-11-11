@@ -42,6 +42,10 @@ Map Atlas turns that pile into **a library you can browse**: draw a map into the
 
 ![Detail](docs/screenshots/02-detail.jpg)
 
+**Settling a session** — back from the game, rate it, tag it, write a line; press Save and the file moves itself
+
+![Settle](docs/screenshots/04-settle.jpg)
+
 **Plugin settings** — library folder, game folder and gameplay options in one place
 
 ![Settings](docs/screenshots/03-settings.jpg)

@@ -42,6 +42,10 @@
 
 ![详情](docs/screenshots/02-detail.jpg)
 
+**打完评价** —— 从游戏退回来，给星级、打标签、写心得；点「确认归位」，文件自动移到对应文件夹
+
+![评价](docs/screenshots/04-settle.jpg)
+
 **插件设置** —— 地图库路径、游戏目录、作战模式都在这里
 
 ![设置](docs/screenshots/03-settings.jpg)

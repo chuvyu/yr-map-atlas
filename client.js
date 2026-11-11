@@ -22,7 +22,7 @@ window.__ModuleLoader__.load({
     const API = '/yr-map-atlas/api';
     // Reverse lookup: keep the Chinese literal inline, swap it at render time.
     let curLocale = 'zh';
-    const EN_UI = {"红警地图册": "Map Atlas", "待整理": "Pool", "已整理": "Owned", "抽一张": "Draw", "重新扫描": "Rescan", "确认归位": "Save", "再来一局": "Play again", "删除": "Delete", "加载更多": "Load more", "打开文件夹": "Open folder", "正在建立索引": "Indexing", "没有匹配的地图": "No matching maps", "搜索地图名、文件名、心得": "Search map name, file name or notes", "首次设置": "First-time setup", "三步完成，之后可在设置里修改": "Three steps. You can change everything later in Settings.", "① 地图库放在哪里": "1  Where should the library live?", "所有地图、星级文件夹和笔记都会放在这里": "Maps, star folders and notes all live here", "选择文件夹": "Choose folder", "重新检测": "Re-check", "中文（00-待整理 / 1人 / 0星）": "Chinese (00-待整理 / 1人 / 0星)", "Chinese (00-待整理 / 1人 / 0星)": "English (00-Inbox / 1P / 0Star)", "目录命名": "Folder naming", "② 游戏目录（可跳过）": "2  Game folder (optional)", "跳过": "Skip", "开始建立": "Build library", "正在建立…": "Building…", "目录可写": "folder is writable", "⚠ 这个目录不可写": "⚠ folder is not writable", "目录已存在": "folder exists", "目录不存在，将自动创建": "will be created", "检测到已有地图库，将直接使用": "Existing library found — it will be used as is", "张地图": "maps found", "找到启动程序": "launchers found", "没找到启动程序，可稍后在设置里指定": "No launcher found — you can set it later in Settings", "界面语言": "Language", "请先选择地图库文件夹": "Choose the library folder first", "建立失败": "Setup failed", "无法打开目录选择器：": "Folder picker failed: ", "插件未就绪": "Plugin not ready", "无法打开会话": "Could not open a conversation", "导入": "Import", "导入地图": "Import maps", "把旧文件夹里的地图和压缩包收进地图库": "Bring maps and archives from an old folder into the library", "关闭": "Close", "① 选择要导入的文件夹": "1  Choose the folder to import", "选原来的地图目录，或放着压缩包的下载文件夹": "Pick your old map folder, or the folder holding the archives", "粘贴路径或点右边选择": "paste a path or pick on the right", "开始扫描": "Scan", "扫描中…": "Scanning…", "正在扫描…": "Scanning…", "正在导入…": "Importing…", "取消": "Cancel", "② 扫描结果": "2  Scan result", "③ 处理方式": "3  How to handle", "重复地图（与库里内容相同的）": "Duplicate maps (same content as the library)", "只留一份": "Keep one", "移到 _重复": "Move to _Duplicates", "全都保留": "Keep all", "文件名": "File name", "用地图内部名": "Use the map title", "保持原文件名": "Keep the original", "压缩包": "Archives", "解压后归档": "Extract, then archive", "原样归档": "Archive as-is", "预览图": "Preview images", "归档": "Archive", "开始导入": "Start import", "④ 完成": "4  Done", "撤销这次导入": "Undo this import", "把这次导入的文件全部搬回原处？": "Move every file from this import back?", "撤销失败": "Undo failed", "请先选择文件夹": "Choose a folder first", "扫描失败": "Scan failed", "导入失败": "Import failed", "地图库位置": "Library folder", "游戏目录（留空 = 纯收藏）": "Game folder (blank = collection only)", "不填就不启动游戏": "leave blank to never launch the game", "保存": "Save", "保存中…": "Saving…", "尚未初始化": "not configured", "维护": "Maintenance", "检查地图": "Check maps", "检查并修复": "Check and fix", "重建索引": "Rebuild index", "导出诊断包": "Export diagnostics", "打包中…": "Packing…", "已保存，正在重建索引": "Saved, rebuilding the index", "开始检查": "Check started", "检查并修复已开始": "Check & fix started", "诊断包已生成：": "Diagnostics written: ", "导出失败": "Export failed", "检查中 ": "Checking ", "✔ 正常 ": "✔ healthy ", " · 可修复 ": " · fixable ", " · 已隔离 ": " · quarantined ", " · 格式异常 ": " · odd format ", "无预览": "no preview", "未评分": "unrated", "点击取消": "click to remove", "自定义标签，回车添加": "custom tag, Enter to add", "添加": "Add", "温带": "Temperate", "雪地": "Snow", "沙漠": "Desert", "城市": "Urban", "月球": "Lunar", "默认": "Default", "名称": "Name", "星级": "Stars", "最近游玩": "Recent", "人数": "Players", "玩得多": "Most played", "筛选": "Filter", "地形": "Terrain", "排序": "Sort", "清空筛选": "Clear filters", "无筛选": "No filters", "收起": "Done", "已保存": "Saved", "保存失败": "Save failed", "网络错误": "Network error", "手工指定": "Set by hand", "地图内部": "Map file", "文件": "File", "位置": "Path", "名称来源": "Name from", "尺寸": "Size", "游玩": "Played", "崩溃": "Crashes", "标签": "Tags", "心得": "Notes", "对局记录": "Sessions", "已收藏": "Favorited", "收藏": "Favorite", "取消收藏": "Remove from favorites", "加入收藏": "Add to favorites", "未评级的地图留在待整理": "Unrated maps stay in the pool", "记录打法和注意事项…": "How it plays, what to avoid…", "官方图 · 只读": "official · read-only", "处理中…": "Working…", "删除失败": "Delete failed", "确定删除「": "Delete \"", "」？文件会被直接删除。": "\"? The file is removed.", "交给 AI": "Ask AI", "一键修复": "Auto-fix", "交给 AI 修复": "Ask AI to fix", "检查中…": "Checking…", "生成工单…": "Preparing…", "修复失败": "Repair failed", "生成工单失败": "Could not build the brief", "检查完成，没有需要修复的问题": "Checked — nothing to fix", "这一局异常结束": "This session ended abnormally", "上一局还没有评级": "The last session is not rated yet", "不评级也可以归位，记为 0 星": "You can file it without rating — it counts as 0 stars.", "这张图会被直接删除，确定？": "This map will be deleted. Continue?", "删除这张图": "Delete this map", "已生成修复版：": "Repaired copy: ", "检查结果": "Check result", "没有发现问题": "No problems found", "直接启动修复版": "Launch the repaired copy", "简单写写就行，也可以跳过": "A line or two is fine — or skip it", "抽到「": "Drew \"", "抽图失败": "Draw failed", "游戏已启动，打完后回来记录": "Game started. Come back here when you are done.", "已复制到游戏目录，启动失败：": "Copied to the game folder but the launch failed: ", "游戏已重启": "Game restarted", "已归位": "Filed", "已删除": "Deleted", "待整理 ": "Pool ", "已整理 ": "Owned ", "官方 ": "Official ", "官方": "official", "红警2": "RA2", "尤里": "YR", "尤里的复仇": "Yuri's Revenge", "修复工单已放进新对话的输入框，按回车开始": "Brief placed in a new conversation — press Enter", "修复工单已复制到剪贴板": "Brief copied to the clipboard", "修复工单已复制到剪贴板：": "Brief copied to the clipboard: ", "工单已填入新对话，按回车开始": "Brief placed in a new conversation — press Enter", "工单已复制到剪贴板": "Brief copied to the clipboard", "已发到地图修复对话": "Sent to the repair conversation", "启动中…": "Starting…", "启动失败": "Launch failed", "启动失败：": "Launch failed: ", "部署失败": "Deploy failed", "未知原因": "unknown reason", "未知": "unknown", "人": "P", "星": " star", "张": "", "次": "", "秒": "s", " 张 · 与库重复 ": " maps · duplicate ", " · 可新增 ": " · new ", " 个文件，": " files, ", " 个官方图包混在待整理里": " official packs sit in the pool", "发现 ": "Found ", " 待整理 · ": " pool · ", " 已整理": " owned", " 小时 ": " h ", " 分": " m", " 分 ": " m ", "，最近": ", last", " 个文件处理失败：": " files failed: ", "已还原 ": "Restored ", " 个文件": " files", "地图 ": "Maps ", "压缩包 ": "Archives ", " · 图片 ": " · images ", " · 其它 ": " · other ", "✔ 新增地图 ": "✔ added ", "· 跳过重复 ": "· skipped ", " · 移到 _重复 ": " · moved to _Duplicates ", "· 归档压缩包 ": "· archived ", " · 解出地图 ": " · extracted ", " · 归档图片 ": " · images ", "① 扫描": "1 scan", "编辑": "Edit", "改名失败": "Rename failed", "已重命名为 ": "Renamed to ", "已打开所在文件夹": "Opened the containing folder", "打开失败": "Could not open", "这张图没有崩溃记录，仍要生成修复工单吗？": "This map has no crash record. Create a repair brief anyway?", "异常修复": "Fix issue", "深度修复": "Deep repair", "整理崩溃现场与结构检查，交给 AI 分析": "Collect the crash context and a structure check for the AI", "自动修复已知问题（座位数不符、MaxPlayer 越界）": "Fix known problems automatically (seat count, MaxPlayer overflow)", "把崩溃现场交给 AI 分析": "Hand the crash context to the AI", "填了才能抽图启动游戏；留空则只做收藏整理": "Draw can launch the game only when this is set. Leave it blank to keep the library only.", "保存后会归位到对应星级文件夹": "Saving files it into the matching star folder", " 人": " players", " 次": " times", " 星": " stars", "，最近 ": ", last ", "新城市": "New Urban", "开始检查并修复": "Check and fix started", "使用说明与常见问题": "Guide and FAQ", "它是什么": "What it is", "把散落的地图整理成库，抽一张进游戏，打完按星级归位，顺手记下心得。": "Turn a pile of map files into a library: draw one, play it, file it by rating, keep a note.", "地图文件内容不动，只按你的评价换文件夹；所有记录存在库里的 .atlas 目录。": "Map files are never edited — only moved between folders. Records live in .atlas inside the library.", "怎么用": "How to use it", "1 放地图": "1  Add maps", "把地图文件放进 00-待整理\\遭遇战，或点右上「导入」批量收进来": "Drop map files into the pool folder, or use Import to bring in a whole folder", "2 抽图": "2  Draw", "点「抽一张」，选尤里或红警2，地图会复制进游戏目录并启动游戏": "Draw copies the map into the game folder and starts the game", "3 打完": "3  Settle", "回到面板点「确认归位」，给星级、选标签、写几句心得": "Come back and press Save: rate it, tag it, write a line or two", "4 归位": "4  File it", "文件自动移到 01-遭遇战\\N人\\N星，之后抽图不会再抽到已评价的图": "The file moves into its player/star folder and will not be drawn again", "5 找图": "5  Find it", "按人数、地形、星级、标签筛选；已整理的地图可以点星收藏": "Filter by players, terrain, stars or tag; star the ones you like", "目录说明": "Folders", "还没评价的图，抽图从这里取": "Unrated maps; the draw pulls from here", "已归位的对战图，按人数和星级分层": "Filed maps, split by players and stars", "战役和任务包": "Campaigns and mission packages", "压缩包、预览图等原始素材": "Archives, previews and other source material", "索引、缩略图、记录；跟着库走，换电脑拷过去即可": "Index, thumbnails, records — travels with the library", "常见问题": "FAQ", "改名会丢记录吗？": "Does renaming lose my record?", "不会。记录按文件内容（MD5）认，改名、移动都不影响。": "No. Records are keyed by file content (MD5), so renaming and moving are safe.", "星级为什么存两处？": "Why are stars stored twice?", "文件夹代表位置，记录代表分数；在面板里评级时两者一起改。": "The folder is where it lives, the record is the score; rating in the panel updates both.", "官方图能评价吗？": "Can I rate official maps?", "能评分、能写心得，但文件是游戏自带的，不会移动或改名。": "Yes, but the files ship with the game: they are never moved or renamed.", "地图一进就崩？": "The map crashes on load?", "结算卡先点「一键修复」，修不了再点「异常修复」，把崩溃现场交给 AI 分析。": "Try Auto-fix first; if that fails use Fix issue to hand the crash context to the AI.", "换电脑怎么搬？": "How do I move to another PC?", "设置里「导出配置」，新机器「导入配置」，再把整个地图库文件夹拷过去。": "Export config on the old machine, import it on the new one, and copy the library folder over.", "导出的是地图吗？": "Does the export include the maps?", "不是。只有星级、标签、心得、收藏和手工命名，地图文件请自行拷贝。": "No. Only stars, tags, notes, favourites and names. Copy the map files yourself.", "导入会覆盖吗？": "Will importing overwrite anything?", "默认合并，只补本地没有的记录；想全部覆盖选「覆盖」模式。": "Merge is the default and only fills gaps. Choose Replace to overwrite.", "能同时用多个库吗？": "Can I use several libraries?", "一次一个库。换库在设置里改路径，旧库的数据留在旧文件夹里。": "One at a time. Switch in Settings; the old library keeps its own data.", "关于": "About", "作者": "Author", "一尾醋醋鱼": "一尾醋醋鱼", "配置格式": "Config format", "配置备份": "Config backup", "只含记录（星级、标签、心得、收藏、命名），不含地图文件；换电脑时把整个地图库一起拷过去": "Records only (stars, tags, notes, favourites, names) — no map files. Copy the library itself separately.", "导出配置": "Export config", "刷新列表": "Refresh", "还没有备份": "No backups yet", "条记录": " records", "个命名": " names", "合并导入": "Merge", "覆盖导入": "Replace", "读取失败": "Could not read", "已导出：": "Exported: ", "已导入 ": "Imported ", " 条（跳过 ": " (skipped ", " 条，": ", ", " 条在库里找不到对应地图）": " have no matching map in this library)", "确定用「": "Import this backup using \"", "」方式导入这份配置？": "\"?", "合并": "merge", "覆盖": "replace", "评级已保存，文件仍留在待整理；打完「确认归位」才归档": "Rating saved. The file stays in the pool until the session is settled.", "保存后会移动到对应星级文件夹": "Saving moves it into the matching star folder", "归档到已整理": "File it", "归档失败": "Could not file it", "不需要真的打一局，直接移动到已整理": "Skip playing — move it into the owned set right away", "可以点「归档到已整理」直接搬过去，不必真的打一局": "Press \"File it\" to move it across without playing a round", "已归档到 ": "Filed at ", "加载中…": "Loading…", "条件抽取": "Draw by filter", "从哪儿抽": "Draw from", "抽取": "Draw", "抽取中…": "Drawing…", "符合条件 ": "Matching: ", " 张": "", "只看收藏": "Favourites only", "还没有任何标签": "No tags yet", "作战配置": "Gameplay options", "写进游戏自己的配置文件，启动游戏前生效；首次写入会自动备份": "Written into the game's own INI and applied before launch. A backup is made on first write.", "起始资金": "Starting credits", "游戏速度": "Game speed", "单位数": "Unit count", "科技等级": "Tech level", "快速游戏": "Short game", "超级武器": "Superweapons", "箱子": "Crates", "盟友建造": "Build off ally", "MCV 重部署": "MCV re-deploy", "迷雾": "Fog of war", "多工程师": "Multi engineer", "可摧毁桥梁": "Destructible bridges", "自定义参数": "Custom keys", "每行一个 key=value，教程里的隐藏选项都可以加在这里": "One key=value per line — put hidden options from tutorials here", "启动游戏前自动应用": "Apply before launch", "立即写入": "Write now", "还原备份": "Restore backup", "还原中…": "Restoring…", "已写入游戏配置": "Written into the game config", "已还原原始配置": "Original config restored", "还原失败": "Restore failed", "找不到文件：": "File not found: ", "开": "On", "关": "Off", "游戏模式": "Game mode", "作战": "Battle", "自由交战": "Free-for-all", "合作模式": "Co-op", "邪恶联盟": "Evil alliance", "巨富": "Rich", "抢地盘": "Land grab", "生死斗": "Deathmatch", "海战": "Naval war", "小队联盟": "Squad alliance", "所有电脑围攻你一个": "Every AI attacks you", "大乱斗": "Everyone against everyone", "和小队协作": "Team up with a squad", "可发展所有国家的科技": "Build every side's tech", "无矿场，只能靠占油井收入": "No ore drills — income comes from oil derricks", "开局几条狗，地盘全靠抢": "Start with a few dogs; grab ground fast", "无高科技": "No high tech", "无坦克": "No tanks", "和电脑一起打电脑": "Fight the AI alongside an AI", "当前：": "Current: ", "当前未设置，游戏默认是 1 作战": "Not set — the game defaults to 1 Battle", "改完要重启游戏；游戏运行中会把这个文件写回默认值": "Restart the game after changing this; a running game writes the file back", "地图库设置": "Library setup", "作战配置、配置备份、体检、导入，都在「设置 → 红警地图册」里": "Gameplay options, backup, health check and import all live in Settings → Map Atlas", "插件设置": "Plugin settings", "配置备份、体检、诊断包在「设置 → 红警地图册」里": "Config backup, health check and diagnostics live in Settings → Map Atlas", "搜索标签，或输入新名字回车创建": "Search tags, or type a new one and press Enter", "没有这个标签，回车新建": "No such tag — press Enter to create it", "新建": "Create", "已放回待整理": "Returned to the pool", "已移出游戏目录，原图留在库里": "Removed from the game folder; the library copy is untouched", "放回待整理": "Return to pool", "操作失败": "That did not work", "未设置游戏目录，不能启动": "No game folder set — cannot launch", "检查游戏目录残留": "Check game folder for strays", "重建缩略图": "Rebuild thumbnails", "游戏目录很干净，没有库外的地图": "The game folder is clean — no stray maps", "游戏目录里有 ": "There are ", " 张库外的地图：\\n\\n": " maps in the game folder that are not in the library:\\n\\n", "\\n\\n要把它们移回待整理吗？": "\\n\\nMove them back to the pool?", "已移回待整理 ": "Moved back: ", "重建全部缩略图？地图多的话会跑一会儿。": "Rebuild every thumbnail? Large libraries take a while.", "已清空 ": "Cleared ", " 张缩略图，正在后台重新生成": " thumbnails; regenerating in the background", "选中以批量操作": "Select for batch actions", "已选 ": "Selected: ", "输入标签": "tag name", "加标签": "Add tag", "移回待整理": "Return to pool", "已加标签 ": "Tagged ", "把选中的 ": "Move ", " 张移回待整理？": " selected maps back to the pool?", "删除选中的 ": "Delete ", " 张？文件会从硬盘移除，不可恢复。": " selected maps? Files are removed from disk, no undo.", "已删除 ": "Deleted ", "打开地图库": "Open library folder", "避开最近抽过的": "Skip recently drawn", "按星级加权（高分更容易抽到）": "Weight by rating", "统计": "Stats", "总对局": "Sessions", "总时长": "Total time", "近 7 天": "Last 7 days", "星级分布": "Rating spread", "地形（已整理）": "Terrain (owned)", "人数（待整理 + 已整理）": "Players (pool + owned)", "玩得最多": "Most played", " 局": " plays", " 分钟": " min", "还没有已整理的图": "No owned maps yet", "删除「": "Delete \"", "」？\\n\\n文件会从硬盘移除，不能撤销。配置备份里不含地图文件。": "\"?\\n\\nThe file is removed from disk. This cannot be undone; the config backup does not contain map files.", "」？\\n\\n文件会从硬盘移除，不能撤销。": "\"?\\n\\nThe file is removed from disk and cannot be recovered.", " 张？\\n\\n文件会从硬盘移除，不能撤销。": " maps?\\n\\nFiles are removed from disk and cannot be recovered.", "还原到首次写入前的原始配置？当前游戏设置会被覆盖。": "Restore the config from before the first write? Current game settings will be overwritten."};
+    const EN_UI = {"红警地图册": "Map Atlas", "待整理": "Pool", "已整理": "Owned", "抽一张": "Draw", "重新扫描": "Rescan", "确认归位": "Save", "再来一局": "Play again", "删除": "Delete", "加载更多": "Load more", "打开文件夹": "Open folder", "正在建立索引": "Indexing", "没有匹配的地图": "No matching maps", "搜索地图名、文件名、心得": "Search map name, file name or notes", "首次设置": "First-time setup", "三步完成，之后可在设置里修改": "Three steps. You can change everything later in Settings.", "① 地图库放在哪里": "1  Where should the library live?", "所有地图、星级文件夹和笔记都会放在这里": "Maps, star folders and notes all live here", "选择文件夹": "Choose folder", "重新检测": "Re-check", "中文（00-待整理 / 1人 / 0星）": "Chinese (00-待整理 / 1人 / 0星)", "Chinese (00-待整理 / 1人 / 0星)": "English (00-Inbox / 1P / 0Star)", "目录命名": "Folder naming", "② 游戏目录（可跳过）": "2  Game folder (optional)", "跳过": "Skip", "开始建立": "Build library", "正在建立…": "Building…", "目录可写": "folder is writable", "⚠ 这个目录不可写": "⚠ folder is not writable", "目录已存在": "folder exists", "目录不存在，将自动创建": "will be created", "检测到已有地图库，将直接使用": "Existing library found — it will be used as is", "张地图": "maps found", "找到启动程序": "launchers found", "没找到启动程序，可稍后在设置里指定": "No launcher found — you can set it later in Settings", "界面语言": "Language", "请先选择地图库文件夹": "Choose the library folder first", "建立失败": "Setup failed", "无法打开目录选择器：": "Folder picker failed: ", "插件未就绪": "Plugin not ready", "无法打开会话": "Could not open a conversation", "导入": "Import", "导入地图": "Import maps", "把旧文件夹里的地图和压缩包收进地图库": "Bring maps and archives from an old folder into the library", "关闭": "Close", "① 选择要导入的文件夹": "1  Choose the folder to import", "选原来的地图目录，或放着压缩包的下载文件夹": "Pick your old map folder, or the folder holding the archives", "粘贴路径或点右边选择": "paste a path or pick on the right", "开始扫描": "Scan", "扫描中…": "Scanning…", "正在扫描…": "Scanning…", "正在导入…": "Importing…", "取消": "Cancel", "② 扫描结果": "2  Scan result", "③ 处理方式": "3  How to handle", "重复地图（与库里内容相同的）": "Duplicate maps (same content as the library)", "只留一份": "Keep one", "移到 _重复": "Move to _Duplicates", "全都保留": "Keep all", "文件名": "File name", "用地图内部名": "Use the map title", "保持原文件名": "Keep the original", "压缩包": "Archives", "解压后归档": "Extract, then archive", "原样归档": "Archive as-is", "预览图": "Preview images", "归档": "Archive", "开始导入": "Start import", "④ 完成": "4  Done", "撤销这次导入": "Undo this import", "把这次导入的文件全部搬回原处？": "Move every file from this import back?", "撤销失败": "Undo failed", "请先选择文件夹": "Choose a folder first", "扫描失败": "Scan failed", "导入失败": "Import failed", "地图库位置": "Library folder", "游戏目录（留空 = 纯收藏）": "Game folder (blank = collection only)", "不填就不启动游戏": "leave blank to never launch the game", "保存": "Save", "保存中…": "Saving…", "尚未初始化": "not configured", "维护": "Maintenance", "检查地图": "Check maps", "检查并修复": "Check and fix", "重建索引": "Rebuild index", "导出诊断包": "Export diagnostics", "打包中…": "Packing…", "已保存，正在重建索引": "Saved, rebuilding the index", "开始检查": "Check started", "检查并修复已开始": "Check & fix started", "诊断包已生成：": "Diagnostics written: ", "导出失败": "Export failed", "检查中 ": "Checking ", "✔ 正常 ": "✔ healthy ", " · 可修复 ": " · fixable ", " · 已隔离 ": " · quarantined ", " · 格式异常 ": " · odd format ", "无预览": "no preview", "未评分": "unrated", "点击取消": "click to remove", "自定义标签，回车添加": "custom tag, Enter to add", "添加": "Add", "温带": "Temperate", "雪地": "Snow", "沙漠": "Desert", "城市": "Urban", "月球": "Lunar", "默认": "Default", "名称": "Name", "星级": "Stars", "最近游玩": "Recent", "人数": "Players", "玩得多": "Most played", "筛选": "Filter", "地形": "Terrain", "排序": "Sort", "清空筛选": "Clear filters", "无筛选": "No filters", "收起": "Done", "已保存": "Saved", "保存失败": "Save failed", "网络错误": "Network error", "手工指定": "Set by hand", "地图内部": "Map file", "文件": "File", "位置": "Path", "名称来源": "Name from", "尺寸": "Size", "游玩": "Played", "崩溃": "Crashes", "标签": "Tags", "心得": "Notes", "对局记录": "Sessions", "已收藏": "Favorited", "收藏": "Favorite", "取消收藏": "Remove from favorites", "加入收藏": "Add to favorites", "未评级的地图留在待整理": "Unrated maps stay in the pool", "记录打法和注意事项…": "How it plays, what to avoid…", "官方图 · 只读": "official · read-only", "处理中…": "Working…", "删除失败": "Delete failed", "确定删除「": "Delete \"", "」？文件会被直接删除。": "\"? The file is removed.", "交给 AI": "Ask AI", "一键修复": "Auto-fix", "交给 AI 修复": "Ask AI to fix", "检查中…": "Checking…", "生成工单…": "Preparing…", "修复失败": "Repair failed", "生成工单失败": "Could not build the brief", "检查完成，没有需要修复的问题": "Checked — nothing to fix", "这一局异常结束": "This session ended abnormally", "上一局还没有评级": "The last session is not rated yet", "不评级也可以归位，记为 0 星": "You can file it without rating — it counts as 0 stars.", "这张图会被直接删除，确定？": "This map will be deleted. Continue?", "删除这张图": "Delete this map", "已生成修复版：": "Repaired copy: ", "检查结果": "Check result", "没有发现问题": "No problems found", "直接启动修复版": "Launch the repaired copy", "简单写写就行，也可以跳过": "A line or two is fine — or skip it", "抽到「": "Drew \"", "抽图失败": "Draw failed", "游戏已启动，打完后回来记录": "Game started. Come back here when you are done.", "已复制到游戏目录，启动失败：": "Copied to the game folder but the launch failed: ", "游戏已重启": "Game restarted", "已归位": "Filed", "已删除": "Deleted", "待整理 ": "Pool ", "已整理 ": "Owned ", "官方 ": "Official ", "官方": "official", "红警2": "RA2", "尤里": "YR", "尤里的复仇": "Yuri's Revenge", "修复工单已放进新对话的输入框，按回车开始": "Brief placed in a new conversation — press Enter", "修复工单已复制到剪贴板": "Brief copied to the clipboard", "修复工单已复制到剪贴板：": "Brief copied to the clipboard: ", "工单已填入新对话，按回车开始": "Brief placed in a new conversation — press Enter", "工单已复制到剪贴板": "Brief copied to the clipboard", "已发到地图修复对话": "Sent to the repair conversation", "启动中…": "Starting…", "启动失败": "Launch failed", "启动失败：": "Launch failed: ", "部署失败": "Deploy failed", "未知原因": "unknown reason", "未知": "unknown", "人": "P", "星": " star", "张": "", "次": "", "秒": "s", " 张 · 与库重复 ": " maps · duplicate ", " · 可新增 ": " · new ", " 个文件，": " files, ", " 个官方图包混在待整理里": " official packs sit in the pool", "发现 ": "Found ", " 待整理 · ": " pool · ", " 已整理": " owned", " 小时 ": " h ", " 分": " m", " 分 ": " m ", "，最近": ", last", " 个文件处理失败：": " files failed: ", "已还原 ": "Restored ", " 个文件": " files", "地图 ": "Maps ", "压缩包 ": "Archives ", " · 图片 ": " · images ", " · 其它 ": " · other ", "✔ 新增地图 ": "✔ added ", "· 跳过重复 ": "· skipped ", " · 移到 _重复 ": " · moved to _Duplicates ", "· 归档压缩包 ": "· archived ", " · 解出地图 ": " · extracted ", " · 归档图片 ": " · images ", "① 扫描": "1 scan", "编辑": "Edit", "改名失败": "Rename failed", "已重命名为 ": "Renamed to ", "已打开所在文件夹": "Opened the containing folder", "打开失败": "Could not open", "这张图没有崩溃记录，仍要生成修复工单吗？": "This map has no crash record. Create a repair brief anyway?", "异常修复": "Fix issue", "深度修复": "Deep repair", "整理崩溃现场与结构检查，交给 AI 分析": "Collect the crash context and a structure check for the AI", "自动修复已知问题（座位数不符、MaxPlayer 越界）": "Fix known problems automatically (seat count, MaxPlayer overflow)", "把崩溃现场交给 AI 分析": "Hand the crash context to the AI", "抽图后会启动游戏。留空就只做收藏。": "Draw will launch the game. Leave blank for a collection only.", "保存后会归位到对应星级文件夹": "Saving files it into the matching star folder", " 人": " players", " 次": " times", " 星": " stars", "，最近 ": ", last ", "新城市": "New Urban", "开始检查并修复": "Check and fix started", "使用说明与常见问题": "Guide and FAQ", "它是什么": "What it is", "把散落的地图整理成库，抽一张进游戏，打完按星级归位，顺手记下心得。": "Turn a pile of map files into a library: draw one, play it, file it by rating, keep a note.", "地图文件内容不动，只按你的评价换文件夹；所有记录存在库里的 .atlas 目录。": "Map files are never edited — only moved between folders. Records live in .atlas inside the library.", "怎么用": "How to use it", "1 放地图": "1  Add maps", "把地图文件放进 00-待整理\\遭遇战，或点右上「导入」批量收进来": "Drop map files into the pool folder, or use Import to bring in a whole folder", "2 抽图": "2  Draw", "点「抽一张」，选尤里或红警2，地图会复制进游戏目录并启动游戏": "Draw copies the map into the game folder and starts the game", "3 打完": "3  Settle", "回到面板点「确认归位」，给星级、选标签、写几句心得": "Come back and press Save: rate it, tag it, write a line or two", "4 归位": "4  File it", "文件自动移到 01-遭遇战\\N人\\N星，之后抽图不会再抽到已评价的图": "The file moves into its player/star folder and will not be drawn again", "5 找图": "5  Find it", "按人数、地形、星级、标签筛选；已整理的地图可以点星收藏": "Filter by players, terrain, stars or tag; star the ones you like", "目录说明": "Folders", "还没评价的图，抽图从这里取": "Unrated maps; the draw pulls from here", "已归位的对战图，按人数和星级分层": "Filed maps, split by players and stars", "战役和任务包": "Campaigns and mission packages", "压缩包、预览图等原始素材": "Archives, previews and other source material", "索引、缩略图、记录；跟着库走，换电脑拷过去即可": "Index, thumbnails, records — travels with the library", "常见问题": "FAQ", "改名会丢记录吗？": "Does renaming lose my record?", "不会。记录按文件内容（MD5）认，改名、移动都不影响。": "No. Records are keyed by file content (MD5), so renaming and moving are safe.", "星级为什么存两处？": "Why are stars stored twice?", "文件夹代表位置，记录代表分数；在面板里评级时两者一起改。": "The folder is where it lives, the record is the score; rating in the panel updates both.", "官方图能评价吗？": "Can I rate official maps?", "能评分、能写心得，但文件是游戏自带的，不会移动或改名。": "Yes, but the files ship with the game: they are never moved or renamed.", "地图一进就崩？": "The map crashes on load?", "结算卡先点「一键修复」，修不了再点「异常修复」，把崩溃现场交给 AI 分析。": "Try Auto-fix first; if that fails use Fix issue to hand the crash context to the AI.", "换电脑怎么搬？": "How do I move to another PC?", "设置里「导出配置」，新机器「导入配置」，再把整个地图库文件夹拷过去。": "Export config on the old machine, import it on the new one, and copy the library folder over.", "导出的是地图吗？": "Does the export include the maps?", "不是。只有星级、标签、心得、收藏和手工命名，地图文件请自行拷贝。": "No. Only stars, tags, notes, favourites and names. Copy the map files yourself.", "导入会覆盖吗？": "Will importing overwrite anything?", "默认合并，只补本地没有的记录；想全部覆盖选「覆盖」模式。": "Merge is the default and only fills gaps. Choose Replace to overwrite.", "能同时用多个库吗？": "Can I use several libraries?", "一次一个库。换库在设置里改路径，旧库的数据留在旧文件夹里。": "One at a time. Switch in Settings; the old library keeps its own data.", "关于": "About", "作者": "Author", "一尾醋醋鱼": "一尾醋醋鱼", "配置格式": "Config format", "配置备份": "Config backup", "只有评价记录，不含地图文件。": "Ratings and notes only — no map files.", "导出配置": "Export config", "刷新列表": "Refresh", "还没有备份": "No backups yet", "条记录": " records", "个命名": " names", "合并导入": "Merge", "覆盖导入": "Replace", "读取失败": "Could not read", "已导出：": "Exported: ", "已导入 ": "Imported ", " 条（跳过 ": " (skipped ", " 条，": ", ", " 条在库里找不到对应地图）": " have no matching map in this library)", "确定用「": "Import this backup using \"", "」方式导入这份配置？": "\"?", "合并": "merge", "覆盖": "replace", "评级已保存，文件仍留在待整理；打完「确认归位」才归档": "Rating saved. The file stays in the pool until the session is settled.", "保存后会移动到对应星级文件夹": "Saving moves it into the matching star folder", "归档到已整理": "File it", "归档失败": "Could not file it", "不需要真的打一局，直接移动到已整理": "Skip playing — move it into the owned set right away", "不用真打一局，点上面就能归档。": "No need to play it — press the button above.", "已归档到 ": "Filed at ", "加载中…": "Loading…", "条件抽取": "Draw by filter", "从哪儿抽": "Draw from", "抽取": "Draw", "抽取中…": "Drawing…", "符合条件 ": "Matching: ", " 张": "", "只看收藏": "Favourites only", "还没有任何标签": "No tags yet", "作战配置": "Gameplay options", "启动游戏前自动写入，第一次会备份原文件。": "Written before each launch; the original is backed up once.", "起始资金": "Starting credits", "游戏速度": "Game speed", "单位数": "Unit count", "科技等级": "Tech level", "快速游戏": "Short game", "超级武器": "Superweapons", "箱子": "Crates", "盟友建造": "Build off ally", "MCV 重部署": "MCV re-deploy", "迷雾": "Fog of war", "多工程师": "Multi engineer", "可摧毁桥梁": "Destructible bridges", "自定义参数": "Custom keys", "每行一个 key=value。": "One key=value per line.", "启动游戏前自动应用": "Apply before launch", "立即写入": "Write now", "还原备份": "Restore backup", "还原中…": "Restoring…", "已写入游戏配置": "Written into the game config", "已还原原始配置": "Original config restored", "还原失败": "Restore failed", "找不到文件：": "File not found: ", "开": "On", "关": "Off", "游戏模式": "Game mode", "作战": "Battle", "自由交战": "Free-for-all", "合作模式": "Co-op", "邪恶联盟": "Evil alliance", "巨富": "Rich", "抢地盘": "Land grab", "生死斗": "Deathmatch", "海战": "Naval war", "小队联盟": "Squad alliance", "所有电脑围攻你一个": "Every AI attacks you", "大乱斗": "Everyone against everyone", "和小队协作": "Team up with a squad", "可发展所有国家的科技": "Build every side's tech", "无矿场，只能靠占油井收入": "No ore drills — income comes from oil derricks", "开局几条狗，地盘全靠抢": "Start with a few dogs; grab ground fast", "无高科技": "No high tech", "无坦克": "No tanks", "和电脑一起打电脑": "Fight the AI alongside an AI", "当前：": "Current: ", "当前未设置，游戏默认是 1 作战": "Not set — the game defaults to 1 Battle", "游戏开着时改了会被覆盖，先关游戏。": "A running game overwrites this — close it first.", "地图库设置": "Library setup", "作战配置、配置备份、体检、导入，都在「设置 → 红警地图册」里": "Gameplay options, backup, health check and import all live in Settings → Map Atlas", "插件设置": "Plugin settings", "配置备份、体检、诊断包在「设置 → 红警地图册」里": "Config backup, health check and diagnostics live in Settings → Map Atlas", "搜索标签，或输入新名字回车创建": "Search tags, or type a new one and press Enter", "没有这个标签，回车新建": "No such tag — press Enter to create it", "新建": "Create", "已放回待整理": "Returned to the pool", "已移出游戏目录，原图留在库里": "Removed from the game folder; the library copy is untouched", "放回待整理": "Return to pool", "操作失败": "That did not work", "未设置游戏目录，不能启动": "No game folder set — cannot launch", "检查游戏目录残留": "Check game folder for strays", "重建缩略图": "Rebuild thumbnails", "游戏目录很干净，没有库外的地图": "The game folder is clean — no stray maps", "游戏目录里有 ": "There are ", " 张库外的地图：\\n\\n": " maps in the game folder that are not in the library:\\n\\n", "\\n\\n要把它们移回待整理吗？": "\\n\\nMove them back to the pool?", "已移回待整理 ": "Moved back: ", "重建全部缩略图？地图多的话会跑一会儿。": "Rebuild every thumbnail? Large libraries take a while.", "已清空 ": "Cleared ", " 张缩略图，正在后台重新生成": " thumbnails; regenerating in the background", "选中以批量操作": "Select for batch actions", "已选 ": "Selected: ", "输入标签": "tag name", "加标签": "Add tag", "移回待整理": "Return to pool", "已加标签 ": "Tagged ", "把选中的 ": "Move ", " 张移回待整理？": " selected maps back to the pool?", "删除选中的 ": "Delete ", " 张？文件会从硬盘移除，不可恢复。": " selected maps? Files are removed from disk, no undo.", "已删除 ": "Deleted ", "打开地图库": "Open library folder", "避开最近抽过的": "Skip recently drawn", "按星级加权（高分更容易抽到）": "Weight by rating", "统计": "Stats", "总对局": "Sessions", "总时长": "Total time", "近 7 天": "Last 7 days", "星级分布": "Rating spread", "地形（已整理）": "Terrain (owned)", "人数（待整理 + 已整理）": "Players (pool + owned)", "玩得最多": "Most played", " 局": " plays", " 分钟": " min", "还没有已整理的图": "No owned maps yet", "删除「": "Delete \"", "」？\\n\\n文件会从硬盘移除，不能撤销。配置备份里不含地图文件。": "\"?\\n\\nThe file is removed from disk. This cannot be undone; the config backup does not contain map files.", "」？\\n\\n文件会从硬盘移除，不能撤销。": "\"?\\n\\nThe file is removed from disk and cannot be recovered.", " 张？\\n\\n文件会从硬盘移除，不能撤销。": " maps?\\n\\nFiles are removed from disk and cannot be recovered.", "还原到首次写入前的原始配置？当前游戏设置会被覆盖。": "Restore the config from before the first write? Current game settings will be overwritten."};
     function T(s) {
       const loc = curLocale || 'zh';
       if (loc.indexOf('en') === 0) return EN_UI[s] || s;
@@ -266,206 +266,284 @@ window.__ModuleLoader__.load({
  --yma-l1:var(--dsw-alias-border-l1);--yma-l2:var(--dsw-alias-border-l2);
  --yma-fg:var(--dsw-alias-label-primary);--yma-fg2:var(--dsw-alias-label-secondary);
  --yma-brand:var(--dsw-alias-brand-primary);--yma-err:var(--dsw-alias-state-error-primary);
- display:flex;flex-direction:column;height:100%;min-height:0;position:relative;
- background:var(--yma-bg);color:var(--yma-fg);
- font-size:13px;line-height:1.45;-webkit-font-smoothing:antialiased}
+ --yma-r-sm:9px;--yma-r:13px;--yma-r-lg:18px;
+ --yma-sh1:0 1px 2px rgba(0,0,0,.05),0 3px 10px -8px rgba(0,0,0,.22);
+ --yma-sh2:0 8px 22px -12px rgba(0,0,0,.3),0 2px 8px -6px rgba(0,0,0,.15);
+ --yma-sh3:0 28px 56px -30px rgba(0,0,0,.55),0 10px 24px -16px rgba(0,0,0,.3);
+ --yma-ease:cubic-bezier(.22,.61,.36,1);--yma-t:170ms;
+ display:flex;flex-direction:column;height:100%;min-height:0;position:relative;color:var(--yma-fg);
+ background:var(--yma-bg);font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased;
+ animation:ymaFade .26s var(--yma-ease) both}
+.yma-root ::-webkit-scrollbar{width:10px;height:10px}
+.yma-root ::-webkit-scrollbar-thumb{background:var(--yma-l2);border-radius:99px;border:3px solid transparent;background-clip:content-box}
+.yma-root ::-webkit-scrollbar-thumb:hover{background:var(--yma-l1);background-clip:content-box}
+.yma-root ::-webkit-scrollbar-track{background:transparent}
 
-.yma-head{display:flex;align-items:center;gap:12px;padding:16px 24px 12px;flex:0 0 auto}
-.yma-brandmark{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;
- background:var(--yma-brand);color:#fff;flex:0 0 auto;box-shadow:0 6px 16px -10px var(--yma-brand)}
-.yma-h1{font-size:16px;font-weight:650;letter-spacing:.2px;margin:0}
-.yma-h1sub{font-size:11.5px;color:var(--yma-fg2);margin-top:1px}
-.yma-pills{display:flex;gap:6px;margin-left:6px;flex-wrap:wrap}
-.yma-pill{display:inline-flex;align-items:center;gap:4px;height:24px;padding:0 10px;border-radius:99px;
- background:var(--yma-s2);color:var(--yma-fg2);font-size:11.5px;font-variant-numeric:tabular-nums}
-.yma-pill b{color:var(--yma-fg);font-weight:650}
+/* ---------------------------------------------------------------- head -- */
+.yma-head{display:flex;align-items:center;gap:12px;padding:18px 24px 14px;flex:0 0 auto;position:relative;z-index:6}
+.yma-brandmark{width:32px;height:32px;border-radius:11px;display:grid;place-items:center;color:#fff;flex:0 0 auto;
+ background:var(--yma-brand);
+ background-image:linear-gradient(150deg,rgba(255,255,255,.28),rgba(0,0,0,.14));
+ box-shadow:0 10px 22px -14px var(--yma-brand),inset 0 1px 0 rgba(255,255,255,.35);
+ transition:transform var(--yma-t) var(--yma-ease)}
+.yma-brandmark:hover{transform:rotate(-4deg) scale(1.04)}
+.yma-h1{font-size:16.5px;font-weight:680;letter-spacing:.2px;margin:0;line-height:1.25}
+.yma-h1sub{font-size:11.5px;color:var(--yma-fg2);margin-top:2px;letter-spacing:.1px}
+.yma-pills{display:flex;gap:6px;margin-left:8px;flex-wrap:wrap}
+.yma-pill{display:inline-flex;align-items:center;gap:5px;height:25px;padding:0 10px;border-radius:99px;
+ background:var(--yma-s1);border:1px solid var(--yma-l1);color:var(--yma-fg2);font-size:11.5px;
+ font-variant-numeric:tabular-nums;transition:border-color var(--yma-t),background var(--yma-t)}
+.yma-pill:hover{background:var(--yma-s2)}
+.yma-pill b{color:var(--yma-fg);font-weight:660}
 .yma-grow{flex:1}
 
-.yma-btn{height:32px;padding:0 13px;border-radius:9px;border:1px solid var(--yma-l1);
- background:var(--yma-s1);color:var(--yma-fg);font-size:12.5px;font-weight:520;font-family:inherit;
- display:inline-flex;align-items:center;gap:6px;cursor:pointer;white-space:nowrap;
- transition:border-color .14s,background .14s,transform .1s,box-shadow .14s}
-.yma-btn:hover{border-color:var(--yma-l2);background:var(--yma-s2)}
-.yma-btn:active{transform:scale(.98)}
-.yma-btn:focus-visible{outline:2px solid var(--yma-brand);outline-offset:2px}
-.yma-btn[disabled]{opacity:.5;cursor:not-allowed}
-.yma-btn--primary{background:var(--yma-brand);border-color:transparent;color:#fff;
- box-shadow:0 6px 16px -10px var(--yma-brand)}
-.yma-btn--primary:hover{background:var(--yma-brand);filter:brightness(1.07);border-color:transparent}
-.yma-btn--ghost{background:transparent}
-.yma-btn--danger{color:var(--yma-err);border-color:var(--yma-l1);background:transparent}
-.yma-btn--danger:hover{border-color:var(--yma-err);background:transparent}
-.yma-btn--sm{height:28px;padding:0 10px;font-size:12px;border-radius:8px}
-
-.yma-bar{display:flex;align-items:center;gap:10px;padding:0 24px 14px;flex-wrap:wrap;flex:0 0 auto}
-.yma-seg{display:inline-flex;padding:3px;border-radius:10px;background:var(--yma-s2);gap:2px}
-.yma-seg button{border:0;background:transparent;color:var(--yma-fg2);font-family:inherit;font-size:12.5px;
- padding:5px 14px;border-radius:8px;cursor:pointer;transition:background .14s,color .14s}
+/* --------------------------------------------------------------- bars --- */
+.yma-bar{display:flex;align-items:center;gap:10px;padding:0 24px 14px;flex:0 0 auto;flex-wrap:wrap}
+.yma-seg{display:inline-flex;gap:2px;padding:3px;border-radius:12px;background:var(--yma-s1);border:1px solid var(--yma-l1)}
+.yma-seg button{height:28px;padding:0 14px;border:0;border-radius:9px;background:transparent;color:var(--yma-fg2);
+ font-size:12.5px;font-weight:500;cursor:pointer;transition:background var(--yma-t),color var(--yma-t),box-shadow var(--yma-t)}
 .yma-seg button:hover{color:var(--yma-fg)}
-.yma-seg button.on{background:var(--yma-s1);color:var(--yma-fg);font-weight:600;
- box-shadow:0 1px 3px rgba(0,0,0,.14)}
-.yma-search{position:relative;flex:1;min-width:180px;max-width:420px}
-.yma-search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--yma-fg2)}
-.yma-input{width:100%;height:34px;padding:0 12px;border-radius:9px;border:1px solid var(--yma-l1);
- background:var(--yma-s1);color:var(--yma-fg);font-size:12.5px;font-family:inherit;outline:none;
- transition:border-color .14s}
-.yma-search .yma-input{padding-left:32px}
-.yma-input::placeholder{color:var(--yma-fg2)}
-.yma-input:focus{border-color:var(--yma-brand)}
-.yma-select{height:34px;padding:0 10px;border-radius:9px;border:1px solid var(--yma-l1);
- background:var(--yma-s1);color:var(--yma-fg);font-size:12.5px;font-family:inherit;outline:none;cursor:pointer}
-.yma-count{font-size:12px;color:var(--yma-fg2);font-variant-numeric:tabular-nums;margin-left:auto}
+.yma-seg button.on{background:var(--yma-s2);color:var(--yma-fg);font-weight:620;
+ box-shadow:var(--yma-sh1),inset 0 1px 0 rgba(255,255,255,.06)}
+.yma-search{display:flex;align-items:center;gap:8px;height:34px;padding:0 12px;border-radius:11px;
+ background:var(--yma-s1);border:1px solid var(--yma-l1);color:var(--yma-fg2);
+ transition:border-color var(--yma-t),box-shadow var(--yma-t),background var(--yma-t)}
+.yma-search:focus-within{border-color:var(--yma-brand);background:var(--yma-s2);
+ box-shadow:0 0 0 3px rgba(127,127,127,.14)}
+.yma-search .yma-input{border:0!important;background:transparent!important;height:30px;padding:0!important;
+ box-shadow:none!important;width:220px}
+.yma-count{font-size:11.5px;color:var(--yma-fg2);margin-left:auto;font-variant-numeric:tabular-nums}
 
-.yma-body{display:flex;flex:1;min-height:0}
-.yma-main{flex:1;display:flex;flex-direction:column;min-width:0;min-height:0}
-.yma-grid{flex:1;overflow:auto;padding:2px 24px 28px;display:grid;
- grid-template-columns:repeat(auto-fill,minmax(214px,1fr));gap:14px;
- align-content:start;align-items:start;grid-auto-rows:max-content;scrollbar-gutter:stable}
+/* --------------------------------------------------------------- body --- */
+.yma-body{flex:1;display:flex;min-height:0;position:relative}
+.yma-main{flex:1;display:flex;flex-direction:column;min-width:0;min-height:0;overflow:auto;padding-bottom:12px}
+.yma-grid{display:grid;gap:14px;padding:2px 24px 18px;
+ grid-template-columns:repeat(auto-fill,minmax(196px,1fr));align-content:start}
 
-.yma-card{background:var(--yma-s1);border:1px solid var(--yma-l1);border-radius:12px;
- overflow:hidden;cursor:pointer;display:flex;flex-direction:column;
- transition:transform .16s cubic-bezier(.2,.8,.3,1),box-shadow .16s,border-color .16s}
-.yma-card:hover{transform:translateY(-3px);box-shadow:0 14px 28px -18px rgba(0,0,0,.55);border-color:var(--yma-l2)}
-.yma-card.on{border-color:var(--yma-brand);
- box-shadow:0 0 0 2px var(--yma-brand),0 16px 30px -20px rgba(0,0,0,.6)}
-.yma-chip--pin{background:var(--yma-brand);color:#fff}
-.yma-chip--pin::before{content:"";width:5px;height:5px;border-radius:50%;background:#fff;margin-right:5px}
-.yma-shot{position:relative;width:100%;padding-top:50%;overflow:hidden;background:var(--yma-s2)}
-.yma-shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block}
-.yma-noimg{position:absolute;inset:0;display:grid;place-items:center;color:var(--yma-fg2);font-size:11px}
-.yma-cbody{padding:9px 11px 10px;display:flex;flex-direction:column;gap:6px}
-.yma-cname{font-size:12.8px;font-weight:600;line-height:1.3;overflow:hidden;display:-webkit-box;
- -webkit-line-clamp:2;-webkit-box-orient:vertical;min-height:2.6em}
-.yma-cmeta{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
+/* --------------------------------------------------------------- card --- */
+.yma-card{position:relative;display:flex;flex-direction:column;overflow:hidden;cursor:pointer;
+ border-radius:var(--yma-r);background:var(--yma-s1);border:1px solid var(--yma-l1);
+ box-shadow:var(--yma-sh1);
+ transition:transform var(--yma-t) var(--yma-ease),box-shadow var(--yma-t) var(--yma-ease),
+            border-color var(--yma-t),background var(--yma-t);
+ animation:ymaUp .34s var(--yma-ease) both}
+.yma-card:hover{transform:translateY(-3px);box-shadow:var(--yma-sh2);border-color:var(--yma-l2);background:var(--yma-s2)}
+.yma-card:active{transform:translateY(-1px) scale(.995)}
+.yma-card:focus-visible{outline:2px solid var(--yma-brand);outline-offset:2px}
+.yma-card.on{border-color:var(--yma-brand);box-shadow:0 0 0 2px var(--yma-brand),var(--yma-sh2)}
+.yma-card.on .yma-cname{color:var(--yma-fg)}
+.yma-shot{position:relative;padding-top:50%;overflow:hidden;background:var(--yma-s2)}
+.yma-shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#0c0c0d;
+ transition:transform .5s var(--yma-ease),filter var(--yma-t)}
+.yma-card:hover .yma-shot img{transform:scale(1.045)}
+.yma-noimg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+ color:var(--yma-fg2);font-size:11px;letter-spacing:.3px;
+ background:linear-gradient(110deg,var(--yma-s2) 30%,var(--yma-s1) 50%,var(--yma-s2) 70%);
+ background-size:220% 100%;animation:ymaShimmer 2.4s linear infinite}
+.yma-cbody{padding:10px 12px 12px;display:flex;flex-direction:column;gap:7px;min-width:0}
+.yma-cname{font-size:12.5px;font-weight:600;line-height:1.35;color:var(--yma-fg);
+ display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;word-break:break-word;min-height:2.7em}
+.yma-cmeta{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
 .yma-chip{display:inline-flex;align-items:center;height:19px;padding:0 7px;border-radius:6px;
- background:var(--yma-s2);color:var(--yma-fg2);font-size:10.5px;font-variant-numeric:tabular-nums}
+ background:var(--yma-s2);color:var(--yma-fg2);font-size:10.5px;font-variant-numeric:tabular-nums;
+ border:1px solid transparent;transition:border-color var(--yma-t)}
+.yma-card:hover .yma-chip{border-color:var(--yma-l1)}
+.yma-chip--pin{background:var(--yma-brand);color:#fff;font-weight:600}
+.yma-chip--pin::before{content:"";width:5px;height:5px;border-radius:50%;background:#fff;margin-right:5px;
+ animation:ymaPulse 1.6s ease-in-out infinite}
 .yma-stars{color:var(--yma-brand);letter-spacing:.5px;font-size:11px}
+.yma-fav{position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:9px;border:0;
+ background:rgba(0,0,0,.44);color:#fff;display:grid;place-items:center;cursor:pointer;
+ opacity:0;transform:scale(.9);transition:opacity var(--yma-t),transform var(--yma-t) var(--yma-ease),background var(--yma-t)}
+.yma-card:hover .yma-fav{opacity:1;transform:scale(1)}
+.yma-fav.on{opacity:1;transform:scale(1);background:rgba(255,255,255,.94);color:var(--yma-brand)}
+.yma-fav:hover{background:rgba(255,255,255,.98);color:var(--yma-brand)}
+.yma-check{position:absolute;top:8px;left:8px;width:24px;height:24px;border-radius:8px;padding:0;
+ border:1.5px solid rgba(255,255,255,.85);background:rgba(0,0,0,.38);color:#fff;font-size:13px;line-height:1;
+ display:grid;place-items:center;cursor:pointer;opacity:0;transform:scale(.9);
+ transition:opacity var(--yma-t),transform var(--yma-t) var(--yma-ease),background var(--yma-t)}
+.yma-card:hover .yma-check,.yma-check.on{opacity:1;transform:scale(1)}
+.yma-check.on{background:var(--yma-brand);border-color:var(--yma-brand);color:#fff}
+.yma-morepad{padding:6px 24px 28px;display:flex;justify-content:center}
+.yma-empty{grid-column:1/-1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
+ padding:72px 20px;color:var(--yma-fg2);font-size:12.5px}
 
-.yma-side{width:372px;flex:0 0 372px;border-left:1px solid var(--yma-l1);display:flex;
- flex-direction:column;min-height:0;background:var(--yma-bg)}
-.yma-sidehead{display:flex;align-items:flex-start;gap:8px;padding:16px 16px 10px}
-.yma-sidename{font-size:15px;font-weight:650;line-height:1.35;margin:0;flex:1;word-break:break-word}
-.yma-iconbtn{width:28px;height:28px;border-radius:8px;border:1px solid transparent;background:transparent;
- color:var(--yma-fg2);cursor:pointer;display:grid;place-items:center;transition:background .14s,color .14s;flex:0 0 auto}
-.yma-iconbtn:hover{background:var(--yma-s2);color:var(--yma-fg)}
-.yma-sidebody{flex:1;overflow:auto;padding:0 16px 22px}
-.yma-preview{border-radius:10px;overflow:hidden;border:1px solid var(--yma-l1);margin-bottom:14px}
-.yma-kv{display:grid;grid-template-columns:70px 1fr;gap:7px 12px;font-size:12.3px;margin:0 0 4px}
+/* --------------------------------------------------------------- side --- */
+.yma-side{width:376px;flex:0 0 376px;border-left:1px solid var(--yma-l1);display:flex;flex-direction:column;
+ min-height:0;background:var(--yma-s1);animation:ymaSlideIn .28s var(--yma-ease) both}
+.yma-sidehead{display:flex;align-items:flex-start;gap:8px;padding:16px 16px 12px;border-bottom:1px solid var(--yma-l1)}
+.yma-sidename{font-size:14.5px;font-weight:660;margin:0;line-height:1.35;flex:1;word-break:break-word}
+.yma-sidebody{flex:1;overflow:auto;padding:14px 16px 24px;display:flex;flex-direction:column;gap:16px}
+.yma-preview{border-radius:var(--yma-r);overflow:hidden;border:1px solid var(--yma-l1);background:#0c0c0d;
+ padding-top:50%;position:relative;box-shadow:var(--yma-sh1)}
+.yma-preview img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.yma-kv{display:grid;grid-template-columns:70px 1fr;gap:8px 12px;margin:0;font-size:12px}
 .yma-kv dt{color:var(--yma-fg2)}
-.yma-kv dd{margin:0;word-break:break-all}
-.yma-sect{margin-top:18px}
-.yma-lbl{font-size:10.5px;font-weight:650;letter-spacing:.6px;color:var(--yma-fg2);
- text-transform:uppercase;margin-bottom:8px}
-.yma-starrow{display:flex;gap:2px;align-items:center;flex-wrap:wrap}
-.yma-sh{width:24px;height:24px;padding:0;border:0;background:transparent;cursor:pointer;
- font-size:17px;line-height:1;color:var(--yma-l2);transition:color .12s,transform .12s}
-.yma-sh:hover{transform:scale(1.15)}
+.yma-kv dd{margin:0;color:var(--yma-fg);word-break:break-all}
+.yma-sect{display:flex;flex-direction:column;gap:9px;padding-top:14px;border-top:1px dashed var(--yma-l2)}
+.yma-lbl{font-size:11.5px;color:var(--yma-fg2);letter-spacing:.4px;text-transform:none}
+.yma-note{font-size:11.5px;color:var(--yma-fg2);line-height:1.6}
+
+/* --------------------------------------------------------- form bits ---- */
+.yma-input{width:100%;height:32px;padding:0 11px;border-radius:10px;background:var(--yma-s1);color:var(--yma-fg);
+ border:1px solid var(--yma-l1);font-size:12.5px;font-family:inherit;outline:none;box-sizing:border-box;
+ transition:border-color var(--yma-t),box-shadow var(--yma-t),background var(--yma-t)}
+.yma-input::placeholder{color:var(--yma-fg2)}
+.yma-input:hover{border-color:var(--yma-l2)}
+.yma-input:focus{border-color:var(--yma-brand);background:var(--yma-s2);box-shadow:0 0 0 3px rgba(127,127,127,.14)}
+.yma-input--sm{height:27px;font-size:12px}
+.yma-ta{width:100%;min-height:96px;max-height:320px;resize:none;overflow-y:auto;border:1px solid var(--yma-l1);
+ border-radius:var(--yma-r);background:var(--yma-s1);color:var(--yma-fg);padding:11px 13px;font-size:12.5px;
+ line-height:1.7;font-family:inherit;outline:none;box-sizing:border-box;
+ transition:border-color var(--yma-t),box-shadow var(--yma-t),height .08s,background var(--yma-t)}
+.yma-ta:hover{border-color:var(--yma-l2)}
+.yma-ta:focus{border-color:var(--yma-brand);background:var(--yma-s2);box-shadow:0 0 0 3px rgba(127,127,127,.14)}
+.yma-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.yma-field{display:flex;gap:8px;margin-top:12px;align-items:center;flex-wrap:wrap}
+.yma-field .yma-input{flex:1;min-width:240px}
+
+/* ------------------------------------------------------------ buttons --- */
+.yma-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:32px;padding:0 14px;
+ border-radius:10px;border:1px solid var(--yma-l2);background:var(--yma-s1);color:var(--yma-fg);
+ font-size:12.5px;font-weight:500;font-family:inherit;cursor:pointer;white-space:nowrap;
+ transition:transform var(--yma-t) var(--yma-ease),background var(--yma-t),border-color var(--yma-t),
+            box-shadow var(--yma-t),color var(--yma-t)}
+.yma-btn:hover{background:var(--yma-s2);border-color:var(--yma-l1);box-shadow:var(--yma-sh1)}
+.yma-btn:active{transform:translateY(1px) scale(.99)}
+.yma-btn:focus-visible{outline:2px solid var(--yma-brand);outline-offset:2px}
+.yma-btn:disabled{opacity:.42;cursor:not-allowed;transform:none;box-shadow:none}
+.yma-btn--primary{color:#fff;border-color:transparent;background-color:var(--yma-brand);
+ background-image:linear-gradient(180deg,rgba(255,255,255,.17),rgba(0,0,0,.1));
+ box-shadow:0 10px 22px -14px var(--yma-brand),inset 0 1px 0 rgba(255,255,255,.24)}
+.yma-btn--primary:hover{background-color:var(--yma-brand);border-color:transparent;
+ box-shadow:0 12px 26px -14px var(--yma-brand),inset 0 1px 0 rgba(255,255,255,.3)}
+.yma-btn--ghost{background:transparent;border-color:transparent;color:var(--yma-fg2)}
+.yma-btn--ghost:hover{background:var(--yma-s2);color:var(--yma-fg);border-color:var(--yma-l1);box-shadow:none}
+.yma-btn--danger{color:var(--yma-err);border-color:var(--yma-l2);background:var(--yma-s1)}
+.yma-btn--danger:hover{background:var(--yma-s2);border-color:var(--yma-err)}
+.yma-btn--sm{height:28px;padding:0 11px;font-size:12px;border-radius:9px}
+.yma-iconbtn{width:28px;height:28px;display:grid;place-items:center;border-radius:9px;border:0;
+ background:transparent;color:var(--yma-fg2);cursor:pointer;
+ transition:background var(--yma-t),color var(--yma-t),transform var(--yma-t)}
+.yma-iconbtn:hover{background:var(--yma-s2);color:var(--yma-fg);transform:rotate(90deg)}
+.yma-mini{border:1px solid var(--yma-l2);background:transparent;color:var(--yma-brand);border-radius:8px;
+ font-size:11px;padding:3px 8px;cursor:pointer;margin-left:6px;white-space:nowrap;font-family:inherit;
+ transition:background var(--yma-t),border-color var(--yma-t)}
+.yma-mini:hover{background:var(--yma-s2);border-color:var(--yma-brand)}
+.yma-mini--warn{color:var(--yma-err);border-color:var(--yma-err)}
+
+/* -------------------------------------------------------------- tags ---- */
+.yma-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.yma-tag{height:25px;padding:0 10px;border-radius:99px;border:1px solid var(--yma-l2);background:transparent;
+ color:var(--yma-fg2);font-size:11.5px;cursor:pointer;font-family:inherit;
+ transition:background var(--yma-t),color var(--yma-t),border-color var(--yma-t),transform var(--yma-t) var(--yma-ease)}
+.yma-tag:hover{background:var(--yma-s2);color:var(--yma-fg);border-color:var(--yma-l1)}
+.yma-tag:active{transform:scale(.96)}
+.yma-tag.on{background:var(--yma-brand);border-color:transparent;color:#fff;font-weight:560;
+ box-shadow:0 6px 14px -10px var(--yma-brand)}
+
+/* ----------------------------------------------------------- star row --- */
+.yma-starrow{display:flex;align-items:center;gap:3px;flex-wrap:wrap}
+.yma-sh{width:22px;height:22px;padding:0;border:0;background:transparent;color:var(--yma-l2);
+ font-size:15px;line-height:1;cursor:pointer;border-radius:6px;
+ transition:color var(--yma-t),transform var(--yma-t) var(--yma-ease)}
+.yma-sh:hover{transform:scale(1.18);color:var(--yma-brand)}
 .yma-sh.on{color:var(--yma-brand)}
-.yma-shval{margin-left:8px;font-size:12px;color:var(--yma-fg2);font-variant-numeric:tabular-nums}
-.yma-tags{display:flex;flex-wrap:wrap;gap:6px}
-.yma-tag{height:25px;padding:0 11px;border-radius:99px;border:1px solid var(--yma-l1);
- background:transparent;color:var(--yma-fg2);font-size:11.5px;font-family:inherit;cursor:pointer;
- transition:border-color .13s,color .13s,background .13s}
-.yma-tag:hover{border-color:var(--yma-l2);color:var(--yma-fg)}
-.yma-tag.on{background:var(--yma-brand);border-color:var(--yma-brand);color:#fff}
-.yma-ta{width:100%;min-height:96px;max-height:320px;resize:none;overflow-y:auto;border:1px solid var(--yma-l1);border-radius:10px;
- background:var(--yma-s1);color:var(--yma-fg);padding:10px 12px;font-size:12.5px;line-height:1.65;
- font-family:inherit;outline:none;box-sizing:border-box;transition:border-color .14s,height .08s}
-.yma-ta:focus{border-color:var(--yma-brand)}
-.yma-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;align-items:center}
-.yma-note{font-size:11.5px;color:var(--yma-fg2);margin-top:8px}
-.yma-history{display:flex;flex-direction:column;gap:2px}
-.yma-hrow{display:flex;justify-content:space-between;gap:10px;font-size:11.5px;color:var(--yma-fg2);
- padding:6px 0;border-bottom:1px solid var(--yma-l1)}
-.yma-hrow:last-child{border-bottom:0}
+.yma-shval{font-size:11.5px;color:var(--yma-fg2);margin-left:8px;font-variant-numeric:tabular-nums}
 
-.yma-settle{margin:0 24px 14px;border-radius:14px;border:1px solid var(--yma-l2);
- background:var(--yma-s1);padding:16px 18px;position:relative;overflow:hidden;flex:0 0 auto;
- box-shadow:0 10px 30px -22px rgba(0,0,0,.6)}
-.yma-settle::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--yma-brand)}
-.yma-settle.warn::before{background:var(--yma-err)}
-.yma-shead{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
-.yma-stitle{font-size:13.5px;font-weight:650}
-.yma-sdur{font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.3px}
-.yma-sgrid{display:grid;grid-template-columns:minmax(250px,1fr) minmax(290px,1.3fr);gap:20px}
-@media (max-width:920px){.yma-sgrid{grid-template-columns:1fr}}
-.yma-sname{font-size:14px;font-weight:650;margin-bottom:6px;word-break:break-word}
+/* ------------------------------------------------------------ settle ---- */
+.yma-settle{margin:0 24px 13px;padding:16px 18px;border-radius:var(--yma-r-lg);
+ background:var(--yma-s1);border:1px solid var(--yma-l1);box-shadow:var(--yma-sh2);
+ animation:ymaUp .3s var(--yma-ease) both}
+.yma-settle.warn{border-color:var(--yma-err);box-shadow:0 0 0 1px var(--yma-err),var(--yma-sh2)}
+.yma-shead{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.yma-stitle{font-size:13px;font-weight:640}
+.yma-sdur{font-size:11.5px;color:var(--yma-fg2);margin-left:auto;font-variant-numeric:tabular-nums}
+.yma-sgrid{display:grid;grid-template-columns:minmax(260px,1fr) minmax(260px,1fr);gap:20px;margin-top:12px}
+.yma-sname{font-size:14px;font-weight:660;margin-bottom:6px;word-break:break-word}
+.yma-history{display:flex;flex-direction:column;gap:5px;margin-top:6px}
+.yma-hrow{display:flex;gap:8px;font-size:11.5px;color:var(--yma-fg2);justify-content:space-between}
 
-.yma-empty{grid-column:1/-1;display:flex;flex-direction:column;align-items:center;justify-content:center;
- gap:10px;padding:64px 20px;color:var(--yma-fg2);font-size:12.5px}
-.yma-prog{height:3px;border-radius:2px;background:var(--yma-s2);overflow:hidden;margin-top:8px}
-.yma-prog i{display:block;height:100%;background:var(--yma-brand);transition:width .3s}
-/* The launch buttons float at the bottom right of the content area; keep the
-   toast above them so "抽到 xxx" never covers the 尤里/红警2 buttons. */
-.yma-toast{position:absolute;left:50%;bottom:88px;transform:translateX(-50%);
- background:var(--yma-s1);border:1px solid var(--yma-l2);color:var(--yma-fg);
- padding:9px 16px;border-radius:99px;font-size:12.5px;box-shadow:0 12px 30px -16px rgba(0,0,0,.7);
- z-index:20;max-width:70%;text-align:center;pointer-events:none}
+/* ------------------------------------------------------- dialogs etc ---- */
+.yma-overlay{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:20px;
+ background:rgba(0,0,0,.42);backdrop-filter:blur(3px);animation:ymaFade .18s var(--yma-ease) both}
+.yma-dlg{width:560px;max-width:100%;max-height:84vh;overflow:auto;border-radius:var(--yma-r-lg);
+ background:var(--yma-bg);border:1px solid var(--yma-l1);box-shadow:var(--yma-sh3);
+ animation:ymaPop .24s var(--yma-ease) both}
+.yma-dlg-head{display:flex;align-items:center;gap:8px;padding:16px 18px 12px;font-size:14px;font-weight:660;
+ border-bottom:1px solid var(--yma-l1)}
+.yma-dlg-body{padding:14px 18px 4px}
+.yma-dlg-foot{display:flex;align-items:center;gap:8px;padding:12px 18px 16px;margin-top:12px;
+ border-top:1px solid var(--yma-l1)}
+.yma-toast{position:absolute;left:50%;bottom:88px;transform:translateX(-50%);z-index:20;max-width:70%;
+ text-align:center;padding:9px 16px;border-radius:99px;font-size:12.5px;color:var(--yma-fg);
+ background:var(--yma-s1);border:1px solid var(--yma-l2);box-shadow:var(--yma-sh2);pointer-events:none;
+ animation:ymaToast .24s var(--yma-ease) both}
 .yma-toast.err{border-color:var(--yma-err);color:var(--yma-err)}
-.yma-fav{position:absolute;top:7px;right:7px;width:26px;height:26px;border-radius:8px;border:0;
- background:rgba(0,0,0,.42);color:#fff;display:grid;place-items:center;cursor:pointer;
- opacity:0;transition:opacity .14s,background .14s,color .14s}
-.yma-card:hover .yma-fav{opacity:1}
-.yma-fav.on{opacity:1;background:rgba(255,255,255,.92);color:var(--yma-brand)}
-.yma-check{position:absolute;top:7px;left:7px;width:22px;height:22px;border-radius:6px;
- border:1.5px solid rgba(255,255,255,.8);background:rgba(0,0,0,.35);color:#fff;font-size:13px;line-height:1;
- display:grid;place-items:center;cursor:pointer;opacity:0;transition:opacity .14s,background .14s;padding:0}
-.yma-card:hover .yma-check,.yma-check.on{opacity:1}
-.yma-check.on{background:var(--yma-brand);border-color:var(--yma-brand)}
-.yma-batchbar{position:absolute;left:20px;bottom:20px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;
- padding:10px 12px;border-radius:12px;background:var(--dsw-alias-bg-overlay);
- border:1px solid var(--dsw-alias-border-l2);z-index:12;
- box-shadow:0 16px 36px -22px rgba(0,0,0,.75);max-width:calc(100% - 440px)}
+.yma-prog{height:4px;border-radius:99px;background:var(--yma-s2);overflow:hidden;margin-top:8px}
+.yma-prog i{display:block;height:100%;border-radius:99px;background:var(--yma-brand);
+ transition:width .35s var(--yma-ease)}
+.yma-batchbar{position:absolute;left:20px;bottom:20px;z-index:12;display:flex;gap:8px;align-items:center;
+ flex-wrap:wrap;padding:10px 12px;border-radius:var(--yma-r);max-width:calc(100% - 440px);
+ background:var(--yma-s1);border:1px solid var(--yma-l2);box-shadow:var(--yma-sh3);
+ animation:ymaUp .22s var(--yma-ease) both}
 .yma-batchbar .yma-input{height:28px;width:150px}
+
+/* -------------------------------------------------------------- misc ---- */
+.yma-author{font-size:11px;color:var(--yma-fg2);padding:16px 0 4px;text-align:center;letter-spacing:.2px}
 .yma-stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.yma-stat{display:flex;flex-direction:column;gap:2px;padding:10px 12px;border-radius:10px;
- background:var(--yma-s2);border:1px solid var(--yma-l1)}
-.yma-stat b{font-size:16px;font-weight:650;color:var(--yma-fg)}
+.yma-stat{display:flex;flex-direction:column;gap:3px;padding:11px 13px;border-radius:var(--yma-r);
+ background:var(--yma-s1);border:1px solid var(--yma-l1);transition:border-color var(--yma-t),transform var(--yma-t)}
+.yma-stat:hover{border-color:var(--yma-l2);transform:translateY(-1px)}
+.yma-stat b{font-size:17px;font-weight:680;color:var(--yma-fg);font-variant-numeric:tabular-nums}
 .yma-stat span{font-size:11px;color:var(--yma-fg2)}
-.yma-bar{display:flex;align-items:center;gap:8px;margin-top:5px;font-size:11.5px}
 .yma-bar-k{flex:0 0 72px;color:var(--yma-fg2)}
-.yma-bar-track{flex:1;height:6px;border-radius:3px;background:var(--yma-s2);overflow:hidden}
-.yma-bar-track i{display:block;height:100%;background:var(--yma-brand);border-radius:3px}
+.yma-bar-track{flex:1;height:6px;border-radius:99px;background:var(--yma-s2);overflow:hidden}
+.yma-bar-track i{display:block;height:100%;border-radius:99px;background:var(--yma-brand);
+ transition:width .45s var(--yma-ease)}
 .yma-bar-v{flex:0 0 42px;text-align:right;color:var(--yma-fg);font-variant-numeric:tabular-nums}
-.yma-filecell{display:block}
-.yma-filerow{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
-.yma-filename{word-break:break-all}
-.yma-mini{border:1px solid var(--yma-l2);background:transparent;color:var(--yma-brand);
- border-radius:7px;font-size:11px;padding:2px 7px;cursor:pointer;margin-left:6px;white-space:nowrap}
-.yma-mini:hover{background:var(--yma-s2)}
-.yma-input--sm{flex:1;min-width:140px;height:26px;font-size:12px}
-.yma-nameerr{color:var(--yma-err);font-size:11.5px;margin-top:5px;line-height:1.5}
-.yma-card{position:relative}
-.yma-help{flex:1;overflow:auto;padding:8px 24px 40px;max-width:880px}
+.yma-bar .yma-bar-k,.yma-bar .yma-bar-v{font-size:11.5px}
+.yma-help{flex:1;overflow:auto;padding:6px 24px 40px;max-width:900px}
 .yma-help-sec{margin-bottom:26px}
-.yma-help-h{font-size:13px;font-weight:650;margin-bottom:10px;color:var(--yma-fg)}
+.yma-help-h{font-size:13px;font-weight:660;margin-bottom:10px;color:var(--yma-fg)}
 .yma-help-p{font-size:12.5px;line-height:1.9;color:var(--yma-fg2)}
-.yma-help-row{display:flex;gap:14px;padding:6px 0;border-bottom:1px dashed var(--yma-l2);font-size:12.5px;line-height:1.7}
+.yma-help-row{display:flex;gap:14px;padding:7px 0;border-bottom:1px dashed var(--yma-l2);
+ font-size:12.5px;line-height:1.7}
 .yma-help-k{flex:0 0 150px;color:var(--yma-fg2)}
 .yma-help-v{flex:1;color:var(--yma-fg)}
 .yma-help-about{font-size:12.5px;line-height:2;color:var(--yma-fg2)}
-.yma-help-mark{margin-top:10px;font-size:11.5px;color:var(--yma-fg3);letter-spacing:.3px}
-.yma-author{font-size:11px;color:var(--yma-fg3);padding:14px 0 2px;text-align:center}
+.yma-help-mark{margin-top:10px;font-size:11.5px;color:var(--yma-fg2);letter-spacing:.3px}
+.yma-setup{flex:1;overflow:auto;padding:6px 24px 28px;max-width:860px}
+.yma-setup-step{border:1px solid var(--yma-l1);border-radius:var(--yma-r-lg);background:var(--yma-s1);
+ padding:18px;margin-bottom:14px;box-shadow:var(--yma-sh1)}
+.yma-setup-title{font-size:14px;font-weight:660}
+.yma-setup-notes{margin-top:10px;font-size:11.5px;line-height:1.9}
+.yma-filecell{display:block}
+.yma-filerow{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.yma-filename{word-break:break-all}
+.yma-nameerr{color:var(--yma-err);font-size:11.5px;margin-top:5px;line-height:1.5}
 .yma-go-row{display:flex;gap:10px;align-items:flex-start;margin-top:9px}
 .yma-go-k{flex:0 0 84px;font-size:12px;color:var(--yma-fg2);padding-top:4px}
 .yma-go-row .yma-tags{margin-top:0;flex:1}
-.yma-overlay{position:fixed;inset:0;background:rgba(0,0,0,.38);display:grid;place-items:center;z-index:80;padding:20px}
-.yma-dlg{background:var(--yma-bg);border:1px solid var(--yma-l1);border-radius:16px;width:540px;max-width:100%;
- max-height:84vh;overflow:auto;box-shadow:0 30px 70px -30px rgba(0,0,0,.65)}
-.yma-dlg-head{display:flex;align-items:center;gap:8px;padding:16px 18px 10px;font-size:14px;font-weight:650}
-.yma-dlg-body{padding:0 18px 4px}
-.yma-dlg-foot{display:flex;align-items:center;gap:8px;padding:12px 18px 16px;border-top:1px solid var(--yma-l1);margin-top:10px}
-.yma-backuprow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:5px 0;border-bottom:1px dashed var(--yma-l2)}
+.yma-backuprow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:6px 0;
+ border-bottom:1px dashed var(--yma-l2)}
 .yma-backupmeta{flex:1;font-size:11.5px;color:var(--yma-fg2);word-break:break-all}
-.yma-mini--warn{color:var(--yma-err);border-color:var(--yma-err)}
-.yma-morepad{padding:0 24px 24px}
-.yma-setup{flex:1;overflow:auto;padding:8px 24px 28px;max-width:820px}
-.yma-setup-step{border:1px solid var(--yma-l1);border-radius:14px;background:var(--yma-s1);padding:18px;margin-bottom:14px}
-.yma-setup-title{font-size:14px;font-weight:650}
-.yma-field{display:flex;gap:8px;margin-top:12px;align-items:center;flex-wrap:wrap}
-.yma-field .yma-input{flex:1;min-width:240px}
-.yma-setup-notes{margin-top:10px;font-size:11.5px;line-height:1.8}
-`;
+
+/* ---------------------------------------------------------- keyframes --- */
+@keyframes ymaFade{from{opacity:0}to{opacity:1}}
+@keyframes ymaUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes ymaPop{from{opacity:0;transform:translateY(10px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes ymaSlideIn{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
+@keyframes ymaToast{from{opacity:0;transform:translate(-50%,10px)}to{opacity:1;transform:translate(-50%,0)}}
+@keyframes ymaShimmer{from{background-position:120% 0}to{background-position:-120% 0}}
+@keyframes ymaPulse{0%,100%{opacity:1}50%{opacity:.35}}
+@media (prefers-reduced-motion: reduce){
+  .yma-root *,.yma-card,.yma-side,.yma-dlg,.yma-toast,.yma-noimg{animation:none!important;transition:none!important}
+}
+@media (max-width:1100px){
+  .yma-sgrid{grid-template-columns:1fr}
+  .yma-side{width:330px;flex:0 0 330px}
+}`;
 
     let injected = null;
     function injectStyle() {
@@ -1529,6 +1607,7 @@ window.__ModuleLoader__.load({
       const canFav = it.zone === 'skirmish' || it.zone === 'mission';
       return h('div', {
         className: 'yma-card' + (props.selected ? ' on' : ''),
+        style: { animationDelay: Math.min(props.idx || 0, 10) * 24 + 'ms' },
         role: 'button', tabIndex: 0, 'data-mid': it.id,
         onClick: () => props.onOpen(it),
         onKeyDown: (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); props.onOpen(it); } },
@@ -2244,8 +2323,8 @@ window.__ModuleLoader__.load({
           h('div', { className: 'yma-main' },
             gridItems.length
               ? h('div', { className: 'yma-grid' },
-                gridItems.map((it) => h(MapCard, {
-                  key: it.id, item: it,
+                gridItems.map((it, idx) => h(MapCard, {
+                  key: it.id, item: it, idx,
                   selected: !!(selected && selected.id === it.id),
                   checked: picked.includes(it.id),
                   pinned: it.id === aroundId && !list.items.some((x) => x.id === it.id),

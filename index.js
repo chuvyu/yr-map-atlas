@@ -2394,6 +2394,33 @@ function makeService(config) {
             const recent = recs.reduce(
               (n, r) => n + (r.plays || []).filter((p) => (p.at || 0) >= weekAgo).length, 0,
             );
+            // last 7 days, oldest first, by local day
+            const dayStart = new Date();
+            dayStart.setHours(0, 0, 0, 0);
+            const dayMs = 864e5;
+            const days = [];
+            for (let i = 6; i >= 0; i--) {
+              const d = new Date(dayStart.getTime() - i * dayMs);
+              days.push({ label: (d.getMonth() + 1) + "/" + d.getDate(), count: 0 });
+            }
+            let longest = null;
+            let starSum = 0;
+            let starCount = 0;
+            for (const e of ownedList) {
+              const r = state.records[e.id] || {};
+              if ((r.stars || 0) > 0) { starSum += r.stars; starCount++; }
+              for (const pl of r.plays || []) {
+                if (!pl.at) continue;
+                const d0 = new Date(pl.at);
+                d0.setHours(0, 0, 0, 0);
+                const diff = Math.round((dayStart.getTime() - d0.getTime()) / dayMs);
+                if (diff >= 0 && diff < 7) days[6 - diff].count++;
+                if ((pl.ms || 0) > (longest ? longest.ms : 0)) {
+                  longest = { name: e.name || e.file, ms: pl.ms || 0 };
+                }
+              }
+            }
+            const avgStars = starCount ? Math.round((starSum / starCount) * 10) / 10 : 0;
             return sendJson(res, 200, {
               ok: true,
               result: {
@@ -2401,7 +2428,7 @@ function makeService(config) {
                 owned: ownedList.length,
                 official: state.index.filter((e) => e.zone === "official").length,
                 favorites: state.index.filter((e) => (state.records[e.id] || {}).fav).length,
-                plays, totalMs, recent,
+                plays, totalMs, recent, days, avgStars, longest,
                 starDist, byTheater, byPlayers, top,
               },
             });

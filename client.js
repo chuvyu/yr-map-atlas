@@ -454,6 +454,9 @@ window.__ModuleLoader__.load({
 .yma-tags + .yma-note{margin-top:8px}
 .yma-note + .yma-tags{margin-top:8px}
 .yma-row + .yma-note{margin-top:8px}
+.yma-starrow + .yma-row{margin-top:14px}
+.yma-note + .yma-starrow{margin-top:10px}
+.yma-sgrid > div > .yma-starrow{margin-top:2px}
 .yma-note + .yma-row{margin-top:8px}
 .yma-input + .yma-btn,.yma-btn + .yma-btn{margin-left:0}
 .yma-tag{height:25px;padding:0 10px;border-radius:99px;border:1px solid var(--yma-l2);background:transparent;
@@ -2014,7 +2017,7 @@ window.__ModuleLoader__.load({
               rating ? '将归位到 01-遭遇战\\' + (p.players || p.maxP || 8) + '人\\' + rating + T('星')
                 : T('不评级也可以归位，记为 0 星')),
             h(StarRow, { value: rating, onChange: setRating }),
-            h('div', { className: 'yma-row' },
+            h('div', { className: 'yma-row', style: { marginTop: 14 } },
               h('button', {
                 type: 'button', className: 'yma-btn yma-btn--primary', disabled: !!busy,
                 onClick: () => submit(),

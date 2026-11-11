@@ -32,6 +32,24 @@ Map Atlas turns that pile into **a library you can browse**: draw a map into the
 
 ---
 
+## Screenshots
+
+**The library** — every map shows its own preview, player count and terrain
+
+![Library](docs/screenshots/01-library.jpg)
+
+**Draw and detail** — the drawn map is scrolled into view, with rating, tags and notes on the right
+
+![Detail](docs/screenshots/02-detail.jpg)
+
+**Plugin settings** — library folder, game folder and gameplay options in one place
+
+![Settings](docs/screenshots/03-settings.jpg)
+
+*(The UI ships in Chinese and English; the screenshots show the Chinese build.)*
+
+---
+
 ## Quick start
 
 ### 1. Requirements

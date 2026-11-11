@@ -378,6 +378,7 @@ window.__ModuleLoader__.load({
 .yma-preview{display:block;width:100%;border-radius:var(--yma-r);overflow:hidden;
  border:1px solid var(--yma-l1);background:var(--yma-s2);box-shadow:var(--yma-sh1)}
 .yma-kv{display:grid;grid-template-columns:70px 1fr;gap:8px 12px;margin:0;font-size:12px}
+.yma-sidebody>.yma-kv{margin-top:18px}
 .yma-kv dt{color:var(--yma-fg2)}
 .yma-kv dd{margin:0;color:var(--yma-fg);word-break:break-all}
 .yma-sect{display:flex;flex-direction:column;gap:9px;padding-top:14px;border-top:1px dashed var(--yma-l2)}
@@ -2256,6 +2257,17 @@ window.__ModuleLoader__.load({
         setPicked([]);
         setPendingOpen(id);
       };
+
+      // After a rename or a move the panel would keep showing the old object.
+      useEffect(() => {
+        if (!selected) return;
+        const fresh = list.items.find((x) => x.id === selected.id);
+        if (!fresh) return;
+        if (fresh.file !== selected.file || fresh.name !== selected.name
+          || fresh.rel !== selected.rel || fresh.rating !== selected.rating) {
+          setSelected(fresh);
+        }
+      }, [list, selected]);
 
       useEffect(() => {
         if (!pendingOpen) return;

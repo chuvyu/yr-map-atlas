@@ -2866,6 +2866,15 @@ function makeService(config) {
             if (clash) return sendJson(res, 200, { ok: false, error: "同名文件已存在：" + clash + "，请换一个名字" });
             try { renameSync(entry.path, target); }
             catch (e) { return sendJson(res, 200, { ok: false, error: "改名失败：" + (e?.message || e) }); }
+            // The card title follows the map's own [Basic] Name by default, so a
+            // file rename alone would look like nothing happened. Record the
+            // chosen name as the display override too.
+            nameTable.set(entry.id, stem);
+            saveNames();
+            entry.name = stem;
+            entry.nameSource = "manual";
+            entry.file = basename(target);
+            entry.path = target;
             if (state.pending && state.pending.fromPath === entry.path) state.pending.fromPath = target;
             state.version++;
             scan();

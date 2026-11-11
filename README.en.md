@@ -199,8 +199,8 @@ No — in the pool a rating is only recorded. Press **File it** to move it into 
 **No settlement card after playing?**
 Only a game started from **Draw** inside the plugin is tracked. If you launch the game from a desktop icon, the plugin has no idea which map you played.
 
-**Where does the map go after "Later"?**
-Back to the pool. It is not left behind in the game folder, and the draw can pick it again.
+**Where does the map go after "Return to pool"?**
+Back into the pool. It is not left behind in the game folder, and the draw can pick it again.
 
 **Several libraries at once?**
 One at a time. Switch in Settings; the old library keeps its own data.

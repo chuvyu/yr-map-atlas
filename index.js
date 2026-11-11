@@ -1364,6 +1364,7 @@ function makeService(config) {
 
   /* -------------------------------------------------------- game options -- */
   function iniFileFor(mode) {
+    if (!cfg.gameDir) return null;
     return join(cfg.gameDir, mode === "ra2" ? "RA2.INI" : "RA2MD.INI");
   }
 
@@ -1436,11 +1437,11 @@ function makeService(config) {
 
   function gameOptionsFor(mode) {
     const file = iniFileFor(mode);
-    const exists = existsSync(file);
+    const exists = !!file && existsSync(file);
     return {
-      path: file,
+      path: file || "",
       exists,
-      backup: existsSync(file + ".yr-atlas.bak"),
+      backup: !!file && existsSync(file + ".yr-atlas.bak"),
       values: (() => {
         if (!exists) return {};
         const ini = readIniSection(file, "Skirmish");
@@ -1460,6 +1461,7 @@ function makeService(config) {
     const g = saved.gameOptions;
     if (!g) throw new Error("还没有保存作战配置");
     const file = iniFileFor(mode);
+    if (!file) throw new Error("还没有设置游戏目录，无法写入游戏配置");
     if (!existsSync(file)) throw new Error("找不到游戏配置：" + file);
     const entries = { ...parseCustom(g.custom) };
     const remove = [];
@@ -1796,6 +1798,7 @@ function makeService(config) {
   }
 
   async function deploy(entry, mode) {
+    if (!cfg.gameDir) throw new Error("还没有设置游戏目录，纯收藏模式不能启动游戏。到设置里选一下红警安装目录。");
     ensureDirs();
     const ext = extForMode(entry, mode);
     const targetName = safeName(entry.name || stripExt(entry.file)) + ext;
@@ -1836,6 +1839,7 @@ function makeService(config) {
    * ShellExecute, which launches it normally.
    */
   async function launch(mode) {
+    if (!cfg.gameDir) throw new Error("还没有设置游戏目录，纯收藏模式不能启动游戏。到设置里选一下红警安装目录。");
     const spec = mode === "ra2" ? cfg.exe.ra2 : cfg.exe.yr;
     const full = join(cfg.gameDir, spec.file);
     if (!existsSync(full)) throw new Error("找不到启动程序：" + full);
@@ -2225,16 +2229,10 @@ function makeService(config) {
               return sendJson(res, 200, { ok: false, error: String(e?.message || e) });
             }
           }
-          case "applyGameOptions": {
-            try {
-              return sendJson(res, 200, { ok: true, result: applyGameOptions(body.mode === "ra2" ? "ra2" : "yr") });
-            } catch (e) {
-              return sendJson(res, 200, { ok: false, error: String(e?.message || e) });
-            }
-          }
           case "restoreGameIni": {
             try {
               const file = iniFileFor(body.mode === "ra2" ? "ra2" : "yr");
+              if (!file) return sendJson(res, 200, { ok: false, error: "还没有设置游戏目录" });
               const bak = file + ".yr-atlas.bak";
               if (!existsSync(bak)) return sendJson(res, 200, { ok: false, error: "没有备份可还原" });
               copyFileSync(bak, file);
@@ -2406,13 +2404,6 @@ function makeService(config) {
             // "先放着": close the settlement and put the map back where it belongs
             const r = parkPending();
             return sendJson(res, 200, { ok: true, result: { discarded: !!r, ...(r || {}) } });
-          }
-          case "returnToPool": {
-            if (!state.pending) return sendJson(res, 200, { ok: false, error: "没有待处理的地图" });
-            returnToPool(state.pending);
-            state.pending = null;
-            state.version++;
-            return sendJson(res, 200, { ok: true, result: { returned: true } });
           }
           case "tidyContainers": {
             // official MIX packs that ended up inside the pool: park them with the other official packs

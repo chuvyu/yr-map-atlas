@@ -42,7 +42,9 @@ Map Atlas turns that pile into **a library you can browse**: draw a map into the
 
 ### 2. Download and unzip
 
-Grab `yr-map-atlas-v0.2.0.zip` from [Releases](https://github.com/chuvyu/yr-map-atlas/releases) and extract it anywhere.
+Download an archive from [Releases](https://github.com/chuvyu/yr-map-atlas/releases) and extract it anywhere.
+
+> You will see two options: `yr-map-atlas-vX.X.X.zip` with the version in the name, or **Source code (zip)** under `Assets`. Both work and contain the same files — pick either.
 
 > `D:\Tools\yr-map-atlas` is a good spot. **Avoid `C:\Program Files`** — it needs admin rights and often fails.
 

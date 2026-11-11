@@ -42,7 +42,9 @@
 
 ### 2. 下载与解压
 
-从 [Releases](https://github.com/chuvyu/yr-map-atlas/releases) 下载 `yr-map-atlas-v0.2.0.zip`，解压到任意目录。
+从 [Releases](https://github.com/chuvyu/yr-map-atlas/releases) 下载压缩包，解压到任意目录。
+
+> 页面上有两种可选：带版本号的 `yr-map-atlas-vX.X.X.zip`，或者 `Assets` 里的 **Source code (zip)**。两个都能用，内容一样，任选其一。
 
 > 建议放 `D:\Tools\yr-map-atlas` 这类路径。**不要放 `C:\Program Files`**，那里需要管理员权限，容易装不上。
 

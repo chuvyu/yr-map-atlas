@@ -1099,7 +1099,7 @@ window.__ModuleLoader__.load({
 
           msg ? h('div', { className: 'yma-note' }, msg) : null,
           h('div', { className: 'yma-author' },
-            T('红警地图册') + ' v' + ((st && st.pluginVersion) || '0.25.0')
+            T('红警地图册') + ' v' + ((st && st.pluginVersion) || '0.25.1')
             + ' · ' + T('一尾醋醋鱼') + ' · bilibili · GitHub/chuvyu')));
     }
 

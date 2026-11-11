@@ -34,7 +34,7 @@ const API_PREFIX = "/yr-map-atlas/api";
 const PARSE_VERSION = 4;   // bump when entry parsing changes, to invalidate the index cache
 const DATA_VERSION = 1;    // bump when `.atlas` data needs a migration
 const CONFIG_SCHEMA = 1;   // bump when the exported config pack changes shape
-const PLUGIN_VERSION = "0.25.0";
+const PLUGIN_VERSION = "0.25.1";
 const AUTHOR = "一尾醋醋鱼";
 const GITHUB_USER = "chuvyu";
 const GITHUB = "https://github.com/" + GITHUB_USER;
@@ -3075,10 +3075,12 @@ function makeService(config) {
             if (!existsSync(target)) {
               return sendJson(res, 200, { ok: false, error: "路径不存在：" + target });
             }
-            // /select, highlights the file — the window is easier to spot than a plain folder
-            const arg = entry ? "/select," + target : target;
+            // explorer re-parses the raw command line, so "/select," must be its
+            // own argument followed by the path. Joining them into one string
+            // makes any path with a space fall back to the Documents folder.
+            const args = entry ? ["/select,", target] : [target];
             try {
-              spawn("explorer.exe", [arg], { detached: true, stdio: "ignore", windowsHide: false }).unref();
+              spawn("explorer.exe", args, { detached: true, stdio: "ignore", windowsHide: false }).unref();
             } catch (e) {
               return sendJson(res, 200, { ok: false, error: "打不开资源管理器：" + (e?.message || e) });
             }

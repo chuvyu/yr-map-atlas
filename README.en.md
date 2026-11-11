@@ -244,7 +244,7 @@ The map file declares no maximum, and its start points are incomplete. It still 
 ## Known limitations
 
 - Windows only (the game itself is)
-- `.rar` / `.7z` extraction needs 7-Zip installed; `.zip` is handled natively
+- Extraction: `.zip` uses a built-in reader; `.rar` / `.7z` use the Windows `tar` that ships with the OS — no 7-Zip required (used when present)
 - Nested archives (an archive inside an archive) are not unpacked
 - Automatic crash repair covers known structural problems only; the rest goes through the AI brief
 - Official maps (inside `.mmx` / `.yro` packs) are read-only — they cannot be renamed or moved

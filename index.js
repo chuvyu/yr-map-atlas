@@ -595,6 +595,17 @@ function classifyDir(relDir, layout) {
 
 /* -------------------------------------------------------------- import -- */
 const ARCHIVE_EXT = new Set([".zip", ".rar", ".7z"]);
+// Extraction limits: an archive is untrusted input, so cap what it can cost us.
+const MAX_ENTRY_BYTES = 256 * 1024 * 1024;   // one file
+const MAX_TOTAL_BYTES = 2 * 1024 * 1024 * 1024; // whole archive
+const MAX_ENTRY_COUNT = 5000;
+// What may leave the temp folder. Executables and scripts are dropped.
+const EXTRACT_KEEP = new Set([
+  ".yrm", ".map", ".mpr", ".mmx", ".yro",
+  ".mix", ".csf", ".fnt", ".shp", ".pal", ".vxl", ".hva", ".tmp", ".sno", ".ini",
+  ".png", ".jpg", ".jpeg", ".bmp", ".gif", ".webp",
+  ".txt", ".md", ".nfo", ".pdf", ".doc", ".docx", ".rtf",
+]);
 const IMAGE_EXT = new Set([".png", ".jpg", ".jpeg", ".bmp", ".gif", ".webp"]);
 
 /** Read a zip central directory. Names are UTF-8 when flagged, GBK otherwise. */
@@ -630,7 +641,12 @@ function readZipEntries(buf) {
 function unzipTo(zipPath, outDir) {
   const buf = readFileSync(zipPath);
   let n = 0;
-  for (const e of readZipEntries(buf)) {
+  let total = 0;
+  const entries = readZipEntries(buf);
+  if (entries.length > MAX_ENTRY_COUNT) {
+    throw new Error("压缩包里文件太多（" + entries.length + " 个），已跳过");
+  }
+  for (const e of entries) {
     if (e.name.endsWith("/")) continue;
     if (e.flags & 1) throw new Error("压缩包有密码");
     const parts = e.name.split(/[\\/]+/).filter((p) => p && p !== "." && p !== "..");
@@ -641,32 +657,78 @@ function unzipTo(zipPath, outDir) {
     if (buf.readUInt32LE(lho) !== 0x04034b50) continue;
     const start = lho + 30 + buf.readUInt16LE(lho + 26) + buf.readUInt16LE(lho + 28);
     const data = buf.subarray(start, start + e.csize);
-    writeFileSync(dest, e.method === 0 ? data : e.method === 8 ? inflateRawSync(data) : Buffer.alloc(0));
+    const out = e.method === 0 ? data : e.method === 8 ? inflateRawSync(data) : Buffer.alloc(0);
+    if (out.length > MAX_ENTRY_BYTES) throw new Error("压缩包里有超大文件（" + Math.round(out.length / 1048576) + " MB），已中止");
+    total += out.length;
+    if (total > MAX_TOTAL_BYTES) throw new Error("解压后体积超过 2 GB，已中止");
+    writeFileSync(dest, out);
     n++;
   }
   return n;
 }
 
-function find7z() {
-  for (const c of [
-    "C:\\Program Files\\7-Zip\\7z.exe",
-    "C:\\Program Files (x86)\\7-Zip\\7z.exe",
-    "C:\\Program Files\\NanaZip\\7z.exe",
-  ]) if (existsSync(c)) return c;
+/** Windows ships bsdtar, which reads zip/7z/rar without anything installed. */
+function findTar() {
+  const fixed = "C:\\Windows\\System32\\tar.exe";
+  if (existsSync(fixed)) return fixed;
+  try {
+    const r = spawnSync("where", ["tar.exe"], { encoding: "utf8", windowsHide: true });
+    const first = String(r.stdout || "").split(/\r?\n/).map((s) => s.trim()).find(Boolean);
+    if (first && existsSync(first)) return first;
+  } catch { /* ignore */ }
   return null;
 }
 
-/** Extract any supported archive into outDir. Returns the number of files. */
-function extractArchive(path, outDir) {
-  const ext = extname(path).toLowerCase();
-  mkdirSync(outDir, { recursive: true });
-  if (ext === ".zip") return unzipTo(path, outDir);
-  const seven = find7z();
-  if (!seven) throw new Error("需要 7-Zip 才能解压 " + ext + "，未检测到");
-  const r = spawnSync(seven, ["x", "-y", "-o" + outDir, path], { windowsHide: true });
-  if (r.status !== 0) throw new Error("7-Zip 解压失败");
+/** 7-Zip is the last resort; look in PATH, the registry and the usual folders. */
+function find7z() {
+  const cands = [
+    "C:\\Program Files\\7-Zip\\7z.exe",
+    "C:\\Program Files (x86)\\7-Zip\\7z.exe",
+    "C:\\Program Files\\NanaZip\\7z.exe",
+    "C:\\Program Files\\Bandizip\\bz.exe",
+  ];
+  for (const key of ["HKLM\\SOFTWARE\\7-Zip", "HKLM\\SOFTWARE\\WOW6432Node\\7-Zip", "HKCU\\SOFTWARE\\7-Zip"]) {
+    try {
+      const r = spawnSync("reg", ["query", key, "/v", "Path"], { encoding: "utf8", windowsHide: true });
+      const m = /Path\s+REG_SZ\s+(.+)/i.exec(String(r.stdout || ""));
+      if (m) cands.push(join(m[1].trim(), "7z.exe"));
+    } catch { /* ignore */ }
+  }
+  try {
+    const r = spawnSync("where", ["7z.exe", "7za.exe"], { encoding: "utf8", windowsHide: true });
+    for (const line of String(r.stdout || "").split(/\r?\n/)) {
+      if (line.trim()) cands.push(line.trim());
+    }
+  } catch { /* ignore */ }
+  for (const c of cands) {
+    try { if (c && existsSync(c)) return c; } catch { /* ignore */ }
+  }
+  return null;
+}
+
+/** Enforce the size budget on whatever a third-party tool just produced. */
+function enforceBudget(dir) {
+  let total = 0;
+  let count = 0;
+  const stack = [dir];
+  while (stack.length) {
+    const d = stack.pop();
+    let ents = [];
+    try { ents = readdirSync(d, { withFileTypes: true }); } catch { continue; }
+    for (const e of ents) {
+      if (e.isDirectory()) { stack.push(join(d, e.name)); continue; }
+      count++;
+      if (count > MAX_ENTRY_COUNT) throw new Error("压缩包里文件太多，已中止");
+      try { total += statSync(join(d, e.name)).size; } catch { /* ignore */ }
+      if (total > MAX_TOTAL_BYTES) throw new Error("解压后体积超过 2 GB，已中止");
+    }
+  }
+  return count;
+}
+
+function countFiles(dir) {
   let n = 0;
-  const stack = [outDir];
+  const stack = [dir];
   while (stack.length) {
     const d = stack.pop();
     let ents = [];
@@ -677,6 +739,59 @@ function extractArchive(path, outDir) {
     }
   }
   return n;
+}
+
+/** Extract any supported archive into outDir. Returns the number of files.
+ *  Order: built-in zip reader (no dependency) -> Windows tar (no dependency,
+ *  reads 7z/rar) -> 7-Zip if the user happens to have it. */
+function extractArchive(path, outDir) {
+  const ext = extname(path).toLowerCase();
+  mkdirSync(outDir, { recursive: true });
+  const failures = [];
+
+  const wipe = () => {
+    try { rmSync(outDir, { recursive: true, force: true }); } catch { /* ignore */ }
+    try { mkdirSync(outDir, { recursive: true }); } catch { /* ignore */ }
+  };
+
+  if (ext === ".zip") {
+    try { return unzipTo(path, outDir); } catch (e) {
+      failures.push("内置解压：" + (e?.message || e));
+      wipe();
+    }
+  }
+
+  const tar = findTar();
+  if (tar) {
+    const r = spawnSync(tar, ["-xf", path, "-C", outDir], { windowsHide: true, timeout: 300000 });
+    if (r.status === 0) {
+      try { return enforceBudget(outDir); } catch (e) {
+        failures.push(String(e?.message || e));
+        wipe();
+      }
+    } else {
+      const msg = String(r.stderr || "").trim().split(/\r?\n/).filter(Boolean).slice(-1)[0] || "解压失败";
+      failures.push("tar：" + msg);
+      wipe();
+    }
+  }
+
+  const seven = find7z();
+  if (seven) {
+    const r = spawnSync(seven, ["x", "-y", "-o" + outDir, path], { windowsHide: true, timeout: 300000 });
+    if (r.status === 0) {
+      try { return enforceBudget(outDir); } catch (e) {
+        failures.push(String(e?.message || e));
+        wipe();
+      }
+    } else {
+      failures.push("7-Zip：解压失败");
+      wipe();
+    }
+  }
+
+  if (!failures.length) throw new Error("这个压缩包解不开（系统缺少可用的解压组件）");
+  throw new Error(failures.join("；"));
 }
 
 /** Filesystem-safe map title: quotes dropped, colon becomes a dash. */
@@ -1171,7 +1286,7 @@ function makeService(config) {
     imp.done = 0;
     imp.total = importPlan.items.length;
     imp.error = null;
-    imp.result = { moved: 0, skipped: 0, duped: 0, archived: 0, images: 0, containers: 0, extracted: 0, errors: [] };
+    imp.result = { moved: 0, skipped: 0, duped: 0, archived: 0, images: 0, containers: 0, extracted: 0, dropped: 0, errors: [] };
     const manifest = [];
     const have = new Set(state.index.map((e) => e.id).filter(Boolean));
     const tmpRoot = join(dataDir, "imports", "tmp-" + Date.now());
@@ -1226,14 +1341,18 @@ function makeService(config) {
             try {
               extractArchive(item.path, out);
               const inner = walkFiles(out);
-              maps = inner.filter((f) => MAP_EXT.has(extname(f).toLowerCase()));
-              const resFiles = inner.filter((f) => [".csf", ".fnt", ".shp", ".pal", ".mix"].includes(extname(f).toLowerCase()));
+              // Only map material leaves the temp folder; anything else
+              // (executables, scripts, installers) is dropped on purpose.
+              const keep = inner.filter((f) => EXTRACT_KEEP.has(extname(f).toLowerCase()));
+              imp.result.dropped += inner.length - keep.length;
+              maps = keep.filter((f) => MAP_EXT.has(extname(f).toLowerCase()));
+              const resFiles = keep.filter((f) => [".csf", ".fnt", ".shp", ".pal", ".mix"].includes(extname(f).toLowerCase()));
               const isPackage = maps.length > 1 || resFiles.length > 0;
               if (isPackage) {
                 const stem = safeName(stripExt(basename(item.path))) || "package";
                 const dest = join(cfg.libraryRoot, layout.pool, layout.poolMissions, stem);
                 try { mkdirSync(dest, { recursive: true }); } catch { /* ignore */ }
-                for (const f of inner) {
+                for (const f of keep) {
                   const rel = relative(out, f);
                   const t = join(dest, rel);
                   mkdirSync(dirname(t), { recursive: true });

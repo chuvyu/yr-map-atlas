@@ -1930,6 +1930,36 @@ function makeService(config) {
     return p;
   }
 
+  /**
+   * "先放着" — close the settlement without recording anything.
+   * The map must not be left stranded in the game folder: a pool map goes back
+   * to the pool under its original file name, while an owned map only had a
+   * copy there, so that copy is removed and the library original stays put.
+   */
+  function parkPending() {
+    const p = state.pending;
+    if (!p) return null;
+    stopWatch();
+    let returned = false;
+    try {
+      if (p.copy) {
+        if (p.deployedPath && existsSync(p.deployedPath)) unlinkSync(p.deployedPath);
+      } else {
+        const dir = join(cfg.libraryRoot, layout.pool, layout.poolPlain);
+        const from = p.deployedPath && existsSync(p.deployedPath) ? p.deployedPath : p.fromPath;
+        if (from && existsSync(from)) {
+          const name = p.file || (safeName(p.name || stripExt(from)) + extname(from));
+          moveInto(from, dir, name);
+          returned = true;
+        }
+      }
+    } catch (e) { log("parkPending failed", e?.message); }
+    state.pending = null;
+    saveStateSoon();
+    state.version++;
+    return { returned, copied: !!p.copy };
+  }
+
   /* ------------------------------------------------------------ http ---- */
   function sendJson(res, status, obj) {
     const body = Buffer.from(JSON.stringify(obj), "utf8");
@@ -2373,10 +2403,9 @@ function makeService(config) {
             return sendJson(res, 200, { ok: true, result: { saved: true } });
           }
           case "discard": {
-            // close the settlement without recording; the deployed map stays put
-            const p = dropPending(false);
-            state.version++;
-            return sendJson(res, 200, { ok: true, result: { discarded: !!p } });
+            // "先放着": close the settlement and put the map back where it belongs
+            const r = parkPending();
+            return sendJson(res, 200, { ok: true, result: { discarded: !!r, ...(r || {}) } });
           }
           case "returnToPool": {
             if (!state.pending) return sendJson(res, 200, { ok: false, error: "没有待处理的地图" });

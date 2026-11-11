@@ -38,6 +38,10 @@ Map Atlas turns that pile into **a library you can browse**: draw a map into the
 
 ![Library](docs/screenshots/01-library.jpg)
 
+**Owned maps** — filed by player count and rating, with tags right on the card
+
+![Owned](docs/screenshots/05-owned.jpg)
+
 **Draw and detail** — the drawn map is scrolled into view, with rating, tags and notes on the right
 
 ![Detail](docs/screenshots/02-detail.jpg)
@@ -191,6 +195,12 @@ Press **Auto-fix** in the settlement card; if that fails, **Fix issue** hands th
 
 **Does rating a map in the pool file it?**
 No — in the pool a rating is only recorded. Press **File it** to move it into the owned set early.
+
+**No settlement card after playing?**
+Only a game started from **Draw** inside the plugin is tracked. If you launch the game from a desktop icon, the plugin has no idea which map you played.
+
+**Where does the map go after "Later"?**
+Back to the pool. It is not left behind in the game folder, and the draw can pick it again.
 
 **Several libraries at once?**
 One at a time. Switch in Settings; the old library keeps its own data.

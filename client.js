@@ -395,10 +395,12 @@ window.__ModuleLoader__.load({
  gap:10px;padding:64px 20px;color:var(--yma-fg2);font-size:12.5px}
 .yma-prog{height:3px;border-radius:2px;background:var(--yma-s2);overflow:hidden;margin-top:8px}
 .yma-prog i{display:block;height:100%;background:var(--yma-brand);transition:width .3s}
-.yma-toast{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);
+/* The launch buttons float at the bottom right of the content area; keep the
+   toast above them so "抽到 xxx" never covers the 尤里/红警2 buttons. */
+.yma-toast{position:absolute;left:50%;bottom:88px;transform:translateX(-50%);
  background:var(--yma-s1);border:1px solid var(--yma-l2);color:var(--yma-fg);
  padding:9px 16px;border-radius:99px;font-size:12.5px;box-shadow:0 12px 30px -16px rgba(0,0,0,.7);
- z-index:20;max-width:70%;text-align:center}
+ z-index:20;max-width:70%;text-align:center;pointer-events:none}
 .yma-toast.err{border-color:var(--yma-err);color:var(--yma-err)}
 .yma-fav{position:absolute;top:7px;right:7px;width:26px;height:26px;border-radius:8px;border:0;
  background:rgba(0,0,0,.42);color:#fff;display:grid;place-items:center;cursor:pointer;

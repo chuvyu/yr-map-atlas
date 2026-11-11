@@ -1468,7 +1468,7 @@ function makeService(config) {
     if (!g) throw new Error("还没有保存作战配置");
     const file = iniFileFor(mode);
     if (!file) throw new Error("还没有设置游戏目录，无法写入游戏配置");
-    if (!existsSync(file)) throw new Error("找不到游戏配置：" + file);
+    if (!existsSync(file)) throw new Error("没有找到 " + basename(file) + "，游戏目录可能不对。");
     const entries = { ...parseCustom(g.custom) };
     const remove = [];
     for (const [k, v] of Object.entries(g.values || {})) {
@@ -1864,7 +1864,7 @@ function makeService(config) {
     if (!cfg.gameDir) throw new Error("还没有设置游戏目录，纯收藏模式不能启动游戏。到设置里选一下红警安装目录。");
     const spec = mode === "ra2" ? cfg.exe.ra2 : cfg.exe.yr;
     const full = join(cfg.gameDir, spec.file);
-    if (!existsSync(full)) throw new Error("找不到启动程序：" + full);
+    if (!existsSync(full)) throw new Error("没有在游戏目录里找到 " + spec.file + "。请到设置里确认游戏目录是否选对。");
     // write the skirmish options before the game reads its INI
     try {
       if (saved.gameOptions && saved.gameOptions.applyOnLaunch) applyGameOptions(mode);

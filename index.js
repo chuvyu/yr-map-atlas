@@ -2855,6 +2855,16 @@ function makeService(config) {
             const dir = dirname(entry.path);
             const target = join(dir, stem + ext);
             if (target.toLowerCase() === entry.path.toLowerCase()) {
+              // Same file name — still honour the title the user asked for.
+              if (nameTable.get(entry.id) !== stem) {
+                nameTable.set(entry.id, stem);
+                saveNames();
+                entry.name = stem;
+                entry.nameSource = "manual";
+                state.version++;
+                scan();
+                return sendJson(res, 200, { ok: true, result: { renamed: false, renamedTitle: true, file: basename(entry.path) } });
+              }
               return sendJson(res, 200, { ok: true, result: { renamed: false, file: basename(entry.path) } });
             }
             let clash = null;

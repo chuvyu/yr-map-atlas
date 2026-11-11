@@ -51,15 +51,19 @@
 
 **打完评价** —— 从游戏退回来，给星级、打标签、写心得；点「确认归位」，文件自动移到对应文件夹
 
-<img src="docs/screenshots/04-settle.jpg" width="560" alt="评价">
+![评价](docs/screenshots/04-settle.jpg)
 
-**插件设置** —— 地图库路径、游戏目录、作战模式都在这里
+**统计** —— 打了多久、爱玩几张图、哪个地形最多，点排行直接跳到那张图
+
+<img src="docs/screenshots/06-stats.jpg" width="520" alt="统计">
+
+**插件设置** —— 地图库路径、游戏目录、作战模式，都在插件的齿轮里
 
 ![设置](docs/screenshots/03-settings.jpg)
 
-**统计** —— 打了多久、爱玩几张图、哪个地形最多，一眼看完；点排行直接跳到那张图
+**系统设置里的入口** —— 在 Harness 的「设置」侧栏找到「红警地图册」，插件开关、维护和备份也在这里
 
-<img src="docs/screenshots/06-stats.jpg" width="560" alt="统计">
+<img src="docs/screenshots/07-system.jpg" width="520" alt="系统设置">
 
 ---
 

@@ -74,7 +74,7 @@ window.__ModuleLoader__.load({
       'setup.layoutZh': '中文（00-待整理 / 1人 / 0星）',
       'setup.layoutEn': 'English（00-Inbox / 1P / 0Star）',
       'setup.game': '② 游戏目录（可跳过）',
-      'setup.gameHint': '填了才能抽图启动游戏；留空则只做收藏整理',
+      'setup.gameHint': '抽图后会启动游戏。留空就只做收藏。',
       'setup.skip': '跳过',
       'setup.start': '开始建立',
       'setup.building': '正在建立…',
@@ -1030,7 +1030,7 @@ window.__ModuleLoader__.load({
 
           h('div', { className: 'yma-lbl', style: { marginTop: 26 } }, T('配置备份')),
           h('div', { className: 'yma-note' },
-            T('只含记录（星级、标签、心得、收藏、命名），不含地图文件；换电脑时把整个地图库一起拷过去')),
+            T('只有评价记录，不含地图文件。')),
           h('div', { className: 'yma-row', style: { marginTop: 4 } },
             h('button', {
               type: 'button', className: 'yma-btn yma-btn--sm yma-btn--primary',
@@ -1311,7 +1311,7 @@ window.__ModuleLoader__.load({
       return h('div', null,
         h('div', { className: 'yma-lbl', style: { marginTop: 18 } }, T('作战配置')),
         h('div', { className: 'yma-note' },
-          T('写进游戏自己的配置文件，启动游戏前生效；首次写入会自动备份')),
+          T('启动游戏前自动写入，第一次会备份原文件。')),
 
         h('div', { className: 'yma-tags', style: { marginTop: 6 } },
           [['yr', T('尤里的复仇') + ' (RA2MD.INI)'], ['ra2', T('红警2') + ' (RA2.INI)']].map(([m, text]) => h('button', {
@@ -1339,7 +1339,7 @@ window.__ModuleLoader__.load({
                 + ' — ' + T((MODES.find((m) => m[0] === String(vals.GameMode)) || [0, '', ''])[2] || '')
               : T('当前未设置，游戏默认是 1 作战')),
           h('div', { className: 'yma-note', style: { color: 'var(--yma-err)' } },
-            T('改完要重启游戏；游戏运行中会把这个文件写回默认值')),
+            T('游戏开着时改了会被覆盖，先关游戏。')),
 
           row(T('起始资金'), [['10000', '10000'], ['20000', '20000'], ['50000', '50000']], 'Credits'),
           row(T('游戏速度'), [['0', '0'], ['1', '1'], ['2', '2'], ['3', '3'], ['4', '4'], ['5', '5'], ['6', '6']], 'GameSpeed'),
@@ -1354,7 +1354,7 @@ window.__ModuleLoader__.load({
           yesNo(T('可摧毁桥梁'), 'BridgeDestruction')) : null,
 
         h('div', { className: 'yma-lbl', style: { marginTop: 14 } }, T('自定义参数')),
-        h('div', { className: 'yma-note' }, T('每行一个 key=value，教程里的隐藏选项都可以加在这里')),
+        h('div', { className: 'yma-note' }, T('每行一个 key=value。')),
         h('textarea', {
           className: 'yma-ta', value: custom, spellCheck: false,
           placeholder: 'FogOfWar=yes\nHarvesterTruce=yes',
@@ -1807,7 +1807,7 @@ window.__ModuleLoader__.load({
               : null,
             h('div', { className: 'yma-note' },
               it.zone === 'pool'
-                ? (rating ? T('可以点「归档到已整理」直接搬过去，不必真的打一局') : T('未评级的地图留在待整理'))
+                ? (rating ? T('不用真打一局，点上面就能归档。') : T('未评级的地图留在待整理'))
                 : (rating ? T('保存后会移动到对应星级文件夹') : T('未评级的地图留在待整理')))),
 
           h('div', { className: 'yma-sect' },

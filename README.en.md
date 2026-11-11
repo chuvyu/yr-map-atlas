@@ -51,11 +51,15 @@ Map Atlas turns that pile into **a library you can browse**: draw a map into the
 
 **Settling a session** — back from the game, rate it, tag it, write a line; press Save and the file moves itself
 
-![Settle](docs/screenshots/04-settle.jpg)
+<img src="docs/screenshots/04-settle.jpg" width="560" alt="Settle">
 
 **Plugin settings** — library folder, game folder and gameplay options in one place
 
 ![Settings](docs/screenshots/03-settings.jpg)
+
+**Stats** — hours played, favourite player counts, terrain spread; click a row to jump to that map
+
+<img src="docs/screenshots/06-stats.jpg" width="560" alt="Stats">
 
 *(The UI ships in Chinese and English; the screenshots show the Chinese build.)*
 

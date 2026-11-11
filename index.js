@@ -31,7 +31,7 @@ export const name = "yr-map-atlas";
 export const inject = ["webServer"];
 
 const API_PREFIX = "/yr-map-atlas/api";
-const PARSE_VERSION = 3;   // bump when entry parsing changes, to invalidate the index cache
+const PARSE_VERSION = 4;   // bump when entry parsing changes, to invalidate the index cache
 const DATA_VERSION = 1;    // bump when `.atlas` data needs a migration
 const CONFIG_SCHEMA = 1;   // bump when the exported config pack changes shape
 const PLUGIN_VERSION = "0.2.0";
@@ -244,6 +244,61 @@ function encodePngBgr(w, h, bgr) {
 // Map files are latin1-safe, but [Basic] Name values written by Chinese tools
 // are GBK bytes. Recover them: try strict UTF-8 first, then GBK.
 const GBK = (() => { try { return new TextDecoder("gbk"); } catch { return null; } })();
+
+// ------------------------------------------------------------------ rename --
+// Node can decode GBK but has no encoder. Build the reverse table once from
+// the decoder; it is 24k entries and takes ~60ms, only when first needed.
+let gbkReverse = null;
+function gbkEncode(str) {
+  const out = [];
+  for (const ch of str) {
+    const c = ch.codePointAt(0);
+    if (c < 0x80) { out.push(c); continue; }
+    if (!gbkReverse) {
+      gbkReverse = new Map();
+      const dec = new TextDecoder("gbk");
+      for (let b = 0x81; b <= 0xfe; b++) {
+        for (let t = 0x40; t <= 0xfe; t++) {
+          if (t === 0x7f) continue;
+          let s;
+          try { s = dec.decode(Uint8Array.of(b, t)); } catch { continue; }
+          if (s && s.length === 1 && !gbkReverse.has(s)) gbkReverse.set(s, [b, t]);
+        }
+      }
+    }
+    const pair = gbkReverse.get(ch);
+    if (!pair) return null;
+    out.push(pair[0], pair[1]);
+  }
+  return Buffer.from(out);
+}
+
+/** Replace (or insert) [Basic] Name= inside map text. Returns null if it cannot. */
+function setBasicName(text, name) {
+  const enc = gbkEncode(name);
+  if (!enc) return null;
+  const value = enc.toString("latin1");
+  const sec = splitSections(text).find((s) => s.name === "Basic");
+  if (!sec) return null;
+  const head = text.slice(0, sec.bodyStart);
+  const body = text.slice(sec.bodyStart, sec.end);
+  const tail = text.slice(sec.end);
+
+  const lineRe = /^([ \t]*Name[ \t]*=[ \t]*)([^\r\n]*)/im;
+  if (lineRe.test(body)) {
+    return head + body.replace(lineRe, (all, p1) => p1 + value) + tail;
+  }
+  // no Name key yet: add one right after the section header
+  const eol = body.includes("\r\n") ? "\r\n" : "\n";
+  return head + "Name=" + value + eol + body + tail;
+}
+
+function readBasicName(path) {
+  try {
+    const ini = parseIni(path);
+    return fixText(String((ini.Basic || {}).Name || "").trim());
+  } catch { return ""; }
+}
 
 function fixText(s) {
   if (!s || !/[\u0080-\u00ff]/.test(s)) return s;
@@ -810,6 +865,27 @@ function makeService(config) {
     } catch { nameTable = new Map(); }
   }
 
+  function tryBackup(file, buf) {
+    try {
+      const dir = join(dataDir, "backups", "rename");
+      mkdirSync(dir, { recursive: true });
+      const dest = join(dir, Date.now() + "-" + basename(file));
+      writeFileSync(dest, buf);
+      return dest;
+    } catch { return null; }
+  }
+
+  function logRename(from, to, name) {
+    try {
+      const p = join(dataDir, "rename-log.json");
+      let arr = [];
+      try { arr = JSON.parse(readFileSync(p, "utf8")); } catch { arr = []; }
+      if (!Array.isArray(arr)) arr = [];
+      arr.push({ at: Date.now(), from, to, name });
+      writeFileSync(p, JSON.stringify(arr.slice(-200), null, 1), "utf8");
+    } catch { /* ignore */ }
+  }
+
   function saveNames() {
     try {
       writeFileSync(join(dataDir, "names.json"),
@@ -890,6 +966,7 @@ function makeService(config) {
     const rawName = fixText((basic.Name || "").trim());
     const fileStem = fixText(stripExt(basename(path)));
     let name = rawName;
+    const innerName = rawName;
     let nameSource = "map";
     if (nameTable.has(id)) { name = nameTable.get(id); nameSource = "manual"; }
     else if (!usableName(rawName) && usableName(fileStem)) { name = fileStem; nameSource = "file"; }
@@ -908,7 +985,7 @@ function makeService(config) {
       stars: loc.stars ?? null,
       faction: loc.faction ?? null,
       name: name || fileStem,
-      nameSource,
+      nameSource, innerName,
       displayNameMissing: nameSource === "raw",
       minP: Number.isFinite(minp) ? minp : null,
       maxP: Number.isFinite(maxp) ? maxp : null,
@@ -1623,7 +1700,7 @@ function makeService(config) {
     const r = state.records[e.id] || {};
     const history = (r.plays || []).slice(-20).reverse();
     return {
-      id: e.id, name: e.name, file: e.file, rel: e.rel, kind: e.kind, zone: e.zone,
+      id: e.id, name: e.name, innerName: e.innerName || "", file: e.file, rel: e.rel, kind: e.kind, zone: e.zone,
       players: e.players, stars: e.stars, faction: e.faction,
       minP: e.minP, maxP: e.maxP, theater: e.theater, width: e.width, height: e.height,
       official: e.official, hasThumb: e.hasThumb, size: e.size, nameSource: e.nameSource,
@@ -2844,56 +2921,121 @@ function makeService(config) {
             const entry = state.byId.get(body.id);
             if (!entry) return sendJson(res, 200, { ok: false, error: "找不到这张图" });
             if (entry.official) return sendJson(res, 200, { ok: false, error: "官方图是只读的，不能改名" });
+
             const ext = extname(entry.file);
-            let stem = String(body.name || "").trim();
-            if (ext && stem.toLowerCase().endsWith(ext.toLowerCase())) stem = stem.slice(0, -ext.length);
-            stem = safeName(stem);
+            let wanted = String(body.name || "").trim();
+            if (ext && wanted.toLowerCase().endsWith(ext.toLowerCase())) {
+              wanted = wanted.slice(0, -ext.length);
+            }
+            const stem = safeName(wanted);
             if (!stem) return sendJson(res, 200, { ok: false, error: "名字不能为空" });
             if (!/[A-Za-z\u4e00-\u9fff]/.test(stem)) {
               return sendJson(res, 200, { ok: false, error: "名字里至少要有一个字母或汉字" });
             }
+
             const dir = dirname(entry.path);
             const target = join(dir, stem + ext);
-            if (target.toLowerCase() === entry.path.toLowerCase()) {
-              // Same file name — still honour the title the user asked for.
-              if (nameTable.get(entry.id) !== stem) {
-                nameTable.set(entry.id, stem);
-                saveNames();
-                entry.name = stem;
-                entry.nameSource = "manual";
-                state.version++;
-                scan();
-                return sendJson(res, 200, { ok: true, result: { renamed: false, renamedTitle: true, file: basename(entry.path) } });
-              }
+            const sameFile = target.toLowerCase() === entry.path.toLowerCase();
+            const innerNow = readBasicName(entry.path);
+            // nothing to do only when the file name, the display name and the
+            // name inside the map all already agree
+            if (sameFile && nameTable.get(entry.id) === stem && innerNow === stem) {
               return sendJson(res, 200, { ok: true, result: { renamed: false, file: basename(entry.path) } });
             }
-            let clash = null;
-            try {
-              for (const f of readdirSync(dir)) {
-                if (f.toLowerCase() === basename(target).toLowerCase()) { clash = f; break; }
+            if (!sameFile) {
+              let clash = null;
+              try {
+                for (const f of readdirSync(dir)) {
+                  if (f.toLowerCase() === basename(target).toLowerCase()) { clash = f; break; }
+                }
+              } catch { /* ignore */ }
+              if (clash) {
+                return sendJson(res, 200, { ok: false, error: "同名文件已存在：" + clash + "，请换一个名字" });
               }
-            } catch { /* ignore */ }
-            if (clash) return sendJson(res, 200, { ok: false, error: "同名文件已存在：" + clash + "，请换一个名字" });
-            try { renameSync(entry.path, target); }
-            catch (e) { return sendJson(res, 200, { ok: false, error: "改名失败：" + (e?.message || e) }); }
-            // The card title follows the map's own [Basic] Name by default, so a
-            // file rename alone would look like nothing happened. Record the
-            // chosen name as the display override too.
-            nameTable.set(entry.id, stem);
-            saveNames();
-            entry.name = stem;
-            entry.nameSource = "manual";
-            entry.file = basename(target);
-            entry.path = target;
-            if (state.pending && state.pending.id === entry.id) {
-              state.pending.name = stem;
-              state.pending.file = basename(target);
+            }
+
+            // 1. rewrite the map's own [Basic] Name so the in-game list matches
+            let contentChanged = false;
+            let backupPath = null;
+            try {
+              const raw = readFileSync(entry.path);
+              const text = raw.toString("latin1");
+              const next = setBasicName(text, stem);
+              if (next && next !== text) {
+                const out = Buffer.from(next, "latin1");
+                backupPath = tryBackup(entry.path, raw);
+                const tmp = entry.path + ".yma-tmp";
+                writeFileSync(tmp, out);
+                const back = readBasicName(tmp);
+                if (back !== stem) { try { unlinkSync(tmp); } catch { /* ignore */ } throw new Error("写入后校验不一致"); }
+                renameSync(tmp, entry.path);
+                contentChanged = true;
+              }
+            } catch (e) {
+              return sendJson(res, 200, { ok: false, error: "写入游戏内名称失败：" + (e?.message || e) });
+            }
+
+            // 2. rename the file itself
+            let finalPath = entry.path;
+            if (!sameFile) {
+              try { renameSync(entry.path, target); finalPath = target; }
+              catch (e) {
+                if (contentChanged && backupPath) {
+                  try { copyFileSync(backupPath, entry.path); } catch { /* ignore */ }
+                }
+                return sendJson(res, 200, { ok: false, error: "改名失败：" + (e?.message || e) });
+              }
+            }
+
+            // 3. migrate everything keyed by content hash
+            const oldId = entry.id;
+            let newId = oldId;
+            if (contentChanged) {
+              try { newId = md5File(finalPath); } catch { newId = oldId; }
+            }
+            if (newId !== oldId) {
+              if (state.records[oldId]) {
+                state.records[newId] = state.records[oldId];
+                delete state.records[oldId];
+              }
+              const tp1 = thumbPathOf(oldId);
+              const tp2 = thumbPathOf(newId);
+              try { if (existsSync(tp1)) renameSync(tp1, tp2); } catch { /* will regenerate */ }
+              if (state.pending && state.pending.id === oldId) state.pending.id = newId;
+              state.byId.delete(oldId);
+              logRename(oldId, newId, stem);
               saveStateSoon();
             }
-            if (state.pending && state.pending.fromPath === entry.path) state.pending.fromPath = target;
+
+            // 4. point every table at the new identity
+            nameTable.delete(oldId);
+            nameTable.set(newId, stem);
+            saveNames();
+            entry.id = newId;
+            entry.name = stem;
+            entry.nameSource = "manual";
+            entry.file = basename(finalPath);
+            entry.path = finalPath;
+            entry.rel = relative(cfg.libraryRoot, finalPath);
+            state.byId.set(newId, entry);
+            if (state.pending && state.pending.id === newId) {
+              state.pending.name = stem;
+              state.pending.file = basename(finalPath);
+              saveStateSoon();
+            }
+            if (state.pending && state.pending.fromPath === entry.path) state.pending.fromPath = finalPath;
             state.version++;
             scan();
-            return sendJson(res, 200, { ok: true, result: { renamed: true, file: basename(target), path: target } });
+            return sendJson(res, 200, {
+              ok: true,
+              result: {
+                renamed: !sameFile,
+                renamedTitle: contentChanged,
+                file: basename(finalPath),
+                path: finalPath,
+                backup: backupPath,
+              },
+            });
           }
           default:
             return sendJson(res, 400, { ok: false, error: "unknown action: " + action });

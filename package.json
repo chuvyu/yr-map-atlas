@@ -1,0 +1,44 @@
+{
+  "name": "@local/yr-map-atlas",
+  "version": "0.2.0",
+  "type": "module",
+  "description": "红警2/尤里的复仇地图收藏册：整理、抽图、评分、记录、修复",
+  "main": "./index.js",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./icon": "./icon.svg",
+    "./locale/*.json": "./locale/*.json",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "LICENSE",
+    "README.md",
+    "icon.svg",
+    "locale/*.json"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-locale"
+      ]
+    }
+  },
+  "author": "一尾醋醋鱼 <https://github.com/chuvyu>",
+  "license": "MIT",
+  "homepage": "https://github.com/chuvyu/yr-map-atlas",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chuvyu/yr-map-atlas.git"
+  },
+  "bugs": {
+    "url": "https://github.com/chuvyu/yr-map-atlas/issues"
+  }
+}

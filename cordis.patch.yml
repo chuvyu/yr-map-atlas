@@ -1,0 +1,19 @@
+# yr-map-atlas bundle layer: inserts the map atlas Host row.
+#
+# 不在这里写死路径：首次运行会询问用户地图库和游戏目录，
+# 答案保存在 %LOCALAPPDATA%\yr-map-atlas\settings.json。
+# Paths are deliberately absent — the first-run setup asks the user and stores
+# the answer outside this file.
+- insert:
+    - id: yr-map-atlas
+      name: '@local/yr-map-atlas'
+      config:
+        exe:
+          # the retail launchers: they spawn gamemd.exe / game.exe themselves.
+          # Starting those engines directly never produced a window from the host.
+          yr:
+            file: RA2MD.EXE
+            args:
+              - -speedcontrol
+          ra2:
+            file: RA2.EXE

@@ -1,0 +1,7 @@
+{
+  "meta": {
+    "title": "Map Atlas",
+    "description": "A bookshelf for every Red Alert 2 / Yuri's Revenge map you play: reads the map's own embedded preview plus player and terrain metadata, launches a random map into the game, files it into its player/star folder after you rate it, and records tags, notes, session length and crashes."
+  },
+  "title": "Map Atlas"
+}

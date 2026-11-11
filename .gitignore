@@ -1,0 +1,15 @@
+# 依赖
+node_modules/
+
+# 用户数据（地图库里的索引、缩略图、记录）不应进仓库
+.atlas/
+*.log
+
+# 打包产物
+*.zip
+release/
+
+# 系统垃圾
+.DS_Store
+Thumbs.db
+desktop.ini

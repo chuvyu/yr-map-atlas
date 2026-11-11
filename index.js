@@ -52,6 +52,8 @@ function usableName(s) {
   return core.length >= 5 || (/\s/.test(v) && core.length >= 4);
 }
 const MAP_EXT = new Set([".yrm", ".map", ".mpr", ".mmx", ".yro"]);
+// Only these are ever deployed; .mmx/.yro are official MIX packs, not strays.
+const DEPLOY_EXT = new Set([".yrm", ".map", ".mpr"]);
 const THEATER_TAG = {
   SNOW: "雪地", TEMPERATE: "草地", URBAN: "城市", NEWURBAN: "城市", DESERT: "沙漠", LUNAR: "月球",
 };
@@ -765,6 +767,7 @@ function makeService(config) {
     byId: new Map(),
     pending: null,        // active/parked play session
     records: {},          // id -> record
+    recentDraws: [],      // recently drawn ids, newest first
     version: 0,
   };
   const strayContainers = [];   // official MIX packs found inside the library
@@ -787,6 +790,7 @@ function makeService(config) {
       const raw = JSON.parse(readFileSync(statePath, "utf8"));
       state.records = raw.records || {};
       state.pending = raw.pending || null;
+      state.recentDraws = Array.isArray(raw.recentDraws) ? raw.recentDraws.slice(0, 30) : [];
     } catch { /* first run */ }
     loadNames();
     try {
@@ -819,7 +823,9 @@ function makeService(config) {
   function saveStateSoon() {
     if (saveTimer) return;
     try {
-      writeFileSync(statePath, JSON.stringify({ records: state.records, pending: state.pending }, null, 1), "utf8");
+      writeFileSync(statePath, JSON.stringify({
+        records: state.records, pending: state.pending, recentDraws: state.recentDraws,
+      }, null, 1), "utf8");
     } catch (e) { log("save failed", e?.message); }
   }
 
@@ -1520,6 +1526,22 @@ function makeService(config) {
       kb: pack.repairKb.length,
       bytes: Buffer.byteLength(JSON.stringify(pack)),
     };
+  }
+
+  /** Weekly config snapshot. Runs once after boot; silent on failure. */
+  function maybeAutoBackup() {
+    try {
+      const last = Number(saved.lastBackupAt || 0);
+      if (Date.now() - last < 7 * 864e5) return null;
+      if (!state.index.length) return null;
+      const r = exportConfig();
+      saved = writeSettings({ lastBackupAt: Date.now() });
+      log("auto backup ->", r.path);
+      return r.path;
+    } catch (e) {
+      log("auto backup failed", e?.message);
+      return null;
+    }
   }
 
   function listConfigs() {
@@ -2241,6 +2263,149 @@ function makeService(config) {
               return sendJson(res, 200, { ok: false, error: String(e?.message || e) });
             }
           }
+          case "batch": {
+            const ids = (Array.isArray(body.ids) ? body.ids : []).filter((x) => typeof x === "string");
+            if (!ids.length) return sendJson(res, 200, { ok: false, error: "没有选中任何地图" });
+            const op = String(body.op || "");
+            let done = 0;
+            const failed = [];
+            if (op === "tag") {
+              const add = (Array.isArray(body.add) ? body.add : []).map((s) => String(s).trim()).filter(Boolean);
+              const remove = (Array.isArray(body.remove) ? body.remove : []).map((s) => String(s).trim()).filter(Boolean);
+              if (!add.length && !remove.length) return sendJson(res, 200, { ok: false, error: "没有要改的标签" });
+              for (const id of ids) {
+                const rec = recordOf(id);
+                const tags = new Set(rec.tags || []);
+                add.forEach((t) => tags.add(t));
+                remove.forEach((t) => tags.delete(t));
+                rec.tags = Array.from(tags).slice(0, 40);
+                done++;
+              }
+            } else if (op === "pool") {
+              const dir = join(cfg.libraryRoot, layout.pool, layout.poolPlain);
+              for (const id of ids) {
+                const e = state.byId.get(id);
+                if (!e || e.official) { failed.push(id); continue; }
+                if (e.zone === "pool") { done++; continue; }
+                try {
+                  const to = moveInto(e.path, dir, basename(e.path));
+                  e.path = to;
+                  e.rel = relative(cfg.libraryRoot, to);
+                  e.zone = "pool";
+                  e.stars = null;
+                  e.faction = null;
+                  done++;
+                } catch { failed.push(id); }
+              }
+            } else if (op === "delete") {
+              for (const id of ids) {
+                const e = state.byId.get(id);
+                if (!e || e.official) { failed.push(id); continue; }
+                try {
+                  if (existsSync(e.path)) unlinkSync(e.path);
+                } catch { failed.push(id); continue; }
+                state.index = state.index.filter((x) => x.id !== id);
+                state.byId.delete(id);
+                recordOf(id).status = "dropped";
+                done++;
+              }
+            } else {
+              return sendJson(res, 200, { ok: false, error: "不支持的批量操作" });
+            }
+            saveStateSoon();
+            state.version++;
+            return sendJson(res, 200, { ok: true, result: { done, failed: failed.length } });
+          }
+          case "gameStrays": {
+            if (!cfg.gameDir || !existsSync(cfg.gameDir)) {
+              return sendJson(res, 200, { ok: true, result: { dir: cfg.gameDir || "", items: [] } });
+            }
+            const lib = new Set(state.index.map((e) => e.id));
+            const items = [];
+            let files = [];
+            try { files = readdirSync(cfg.gameDir); } catch { /* ignore */ }
+            for (const f of files) {
+              if (!DEPLOY_EXT.has(extname(f).toLowerCase())) continue;
+              const p = join(cfg.gameDir, f);
+              let md5 = null;
+              let size = 0;
+              try { size = statSync(p).size; md5 = md5File(p); } catch { continue; }
+              if (md5 && lib.has(md5)) continue;
+              items.push({ file: f, size, md5 });
+            }
+            return sendJson(res, 200, { ok: true, result: { dir: cfg.gameDir, items } });
+          }
+          case "gameStraysMove": {
+            if (!cfg.gameDir) return sendJson(res, 200, { ok: false, error: "还没有设置游戏目录" });
+            const list = Array.isArray(body.files) ? body.files : [];
+            if (!list.length) return sendJson(res, 200, { ok: false, error: "没有要移回的图" });
+            const dir = join(cfg.libraryRoot, layout.pool, layout.poolPlain);
+            let done = 0;
+            const failed = [];
+            for (const f of list) {
+              const from = join(cfg.gameDir, basename(String(f)));
+              if (!existsSync(from)) { failed.push(f); continue; }
+              try { moveInto(from, dir, basename(from)); done++; }
+              catch { failed.push(f); }
+            }
+            if (done) scan();
+            return sendJson(res, 200, { ok: true, result: { done, failed: failed.length } });
+          }
+          case "rebuildThumbs": {
+            let removed = 0;
+            try {
+              for (const f of readdirSync(thumbDir)) {
+                try { unlinkSync(join(thumbDir, f)); removed++; } catch { /* ignore */ }
+              }
+            } catch { /* ignore */ }
+            scan();
+            return sendJson(res, 200, { ok: true, result: { removed } });
+          }
+          case "stats": {
+            const ownedList = state.index.filter((e) => e.zone === "skirmish" || e.zone === "mission");
+            const recs = Object.values(state.records);
+            const plays = recs.reduce((n, r) => n + (r.plays || []).length, 0);
+            const totalMs = recs.reduce(
+              (n, r) => n + (r.plays || []).reduce((m, p) => m + (p.ms || 0), 0), 0,
+            );
+            const starDist = new Array(11).fill(0);
+            for (const r of recs) starDist[Math.max(0, Math.min(10, r.stars || 0))]++;
+            const byTheater = {};
+            for (const e of ownedList) {
+              const k = e.theater ? String(e.theater).toUpperCase() : "未知";
+              byTheater[k] = (byTheater[k] || 0) + 1;
+            }
+            const byPlayers = {};
+            for (const e of state.index) {
+              if (e.zone !== "skirmish" && e.zone !== "pool") continue;
+              const k = String(e.maxP || "?");
+              byPlayers[k] = (byPlayers[k] || 0) + 1;
+            }
+            const top = ownedList
+              .map((e) => ({
+                name: e.name || e.file,
+                plays: ((state.records[e.id] || {}).plays || []).length,
+                stars: (state.records[e.id] || {}).stars || 0,
+              }))
+              .filter((x) => x.plays > 0)
+              .sort((a, b) => b.plays - a.plays || b.stars - a.stars)
+              .slice(0, 5);
+            const weekAgo = Date.now() - 7 * 864e5;
+            const recent = recs.reduce(
+              (n, r) => n + (r.plays || []).filter((p) => (p.at || 0) >= weekAgo).length, 0,
+            );
+            return sendJson(res, 200, {
+              ok: true,
+              result: {
+                pool: state.index.filter((e) => e.zone === "pool").length,
+                owned: ownedList.length,
+                official: state.index.filter((e) => e.zone === "official").length,
+                favorites: state.index.filter((e) => (state.records[e.id] || {}).fav).length,
+                plays, totalMs, recent,
+                starDist, byTheater, byPlayers, top,
+              },
+            });
+          }
           case "draw": {
             const wantOwned = body.zone === "owned";
             const listOf = (v) => (Array.isArray(v) ? v
@@ -2277,8 +2442,29 @@ function makeService(config) {
                 error: wantOwned ? "已整理的图里没有符合条件的" : "待整理的图里没有符合条件的",
               });
             }
-            const pick = cands[Math.floor(Math.random() * cands.length)];
-            return sendJson(res, 200, { ok: true, result: decorate(pick), matched: cands.length });
+            // optional: skip the last few drawn maps, and/or weight by rating
+            let pool = cands;
+            if (body.avoidRecent === true && state.recentDraws.length) {
+              const recent = new Set(state.recentDraws);
+              const fresh = cands.filter((e) => !recent.has(e.id));
+              if (fresh.length) pool = fresh;
+            }
+            let pick;
+            if (body.weighted === true) {
+              const weights = pool.map((e) => 1 + (state.records[e.id]?.stars || 0) * 0.5);
+              const total = weights.reduce((a, b) => a + b, 0);
+              let r = Math.random() * total;
+              pick = pool[pool.length - 1];
+              for (let i = 0; i < pool.length; i++) {
+                r -= weights[i];
+                if (r <= 0) { pick = pool[i]; break; }
+              }
+            } else {
+              pick = pool[Math.floor(Math.random() * pool.length)];
+            }
+            state.recentDraws = [pick.id, ...state.recentDraws.filter((x) => x !== pick.id)].slice(0, 20);
+            saveStateSoon();
+            return sendJson(res, 200, { ok: true, result: decorate(pick), matched: pool.length });
           }
           case "drawCount": {
             const wantOwned = body.zone === "owned";
@@ -2669,7 +2855,7 @@ function makeService(config) {
   }
 
   return {
-    cfg, state, ensureDirs, loadState, scan, handle, finishSession, startWatch, stopWatch,
+    cfg, state, ensureDirs, loadState, scan, handle, finishSession, startWatch, stopWatch, maybeAutoBackup,
     configured() { return cfg.configured; },
     resumeWatch() {
       // after a restart, a pending session may still be running or already dead
@@ -2698,6 +2884,13 @@ export function apply(ctx, config) {
     const t = setTimeout(() => { svc.scan().catch(() => {}); }, 1500);
     return () => clearTimeout(t);
   }, "yr-map-atlas: initial scan");
+
+  // A weekly config snapshot, so ratings/tags are never only in one place.
+  ctx.effect(() => {
+    if (!ready) return undefined;
+    const t = setTimeout(() => { svc.maybeAutoBackup(); }, 15000);
+    return () => clearTimeout(t);
+  }, "yr-map-atlas: auto backup");
 
   ctx.effect(() => {
     const t = setTimeout(() => svc.resumeWatch(), 3000);

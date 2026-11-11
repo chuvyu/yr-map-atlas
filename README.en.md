@@ -29,6 +29,9 @@ Map Atlas turns that pile into **a library you can browse**: draw a map into the
 | 🩺 **Crash handling** | Reads the game's crash log; fixes what it can, writes a brief for AI when it cannot |
 | 🎮 **Game modes** | Switch between Battle / Free-for-all / Evil Alliance / Rich / Naval and more |
 | 💾 **Config migration** | Export and import ratings, tags, notes and favourites |
+| ☑️ **Batch actions** | Select several maps and tag, return or delete them at once |
+| 📊 **Stats** | Total play time, rating spread, terrain spread, most-played maps |
+| 🛡 **Game folder guard** | Detects maps that drifted into the game folder and moves them back |
 
 ---
 

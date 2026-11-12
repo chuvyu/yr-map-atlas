@@ -34,7 +34,7 @@ const API_PREFIX = "/yr-map-atlas/api";
 const PARSE_VERSION = 4;   // bump when entry parsing changes, to invalidate the index cache
 const DATA_VERSION = 1;    // bump when `.atlas` data needs a migration
 const CONFIG_SCHEMA = 1;   // bump when the exported config pack changes shape
-const PLUGIN_VERSION = "0.25.1";
+const PLUGIN_VERSION = "0.25.2";
 const AUTHOR = "一尾醋醋鱼";
 const GITHUB_USER = "chuvyu";
 const GITHUB = "https://github.com/" + GITHUB_USER;
@@ -3223,11 +3223,27 @@ function makeService(config) {
     configured() { return cfg.configured; },
     resumeWatch() {
       // after a restart, a pending session may still be running or already dead
-      if (state.pending && !state.pending.ended) {
-        findLiveProcess([cfg.exe.yr.toLowerCase(), cfg.exe.ra2.toLowerCase()]).then((live) => {
-          if (live) startWatch();
-          else finishSession();
-        });
+      try {
+        if (!state.pending || state.pending.ended) return;
+        findLiveProcess([cfg.exe.yr.file.toLowerCase(), cfg.exe.ra2.file.toLowerCase()]).then((live) => {
+          try {
+            if (live) { startWatch(); return; }
+            finishSession();
+            // The game is gone. If it was parked for hours we cannot know when
+            // it really ended, so report the length as unknown instead of
+            // billing the whole idle gap to the session.
+            const p = state.pending;
+            if (p && p.durationMs != null && p.durationMs > 6 * 3600e3) {
+              p.durationMs = null;
+              if (p.outcome !== "crash") p.outcome = "unknown";
+              saveStateSoon();
+            }
+          } catch (e) {
+            log("resumeWatch inner failed", e?.message);
+          }
+        }).catch((e) => log("resumeWatch failed", e?.message));
+      } catch (e) {
+        log("resumeWatch failed", e?.message);
       }
     },
   };
